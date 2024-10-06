@@ -2,77 +2,76 @@ import 'reflect-metadata';
 import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, IsNumber, IsDecimal, Matches } from 'class-validator';
 
 export class CreateClientDto {
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'El DNI del cliente no debe estar vacío' })
+  @IsString({ message: 'El DNI del cliente debe ser una cadena de caracteres' })
   @Matches(/^(\d{8}|\d{11})$/, {
-    message: 'dni_usuario debe tener exactamente 8 o 11 caracteres numéricos',
+    message: 'El DNI del cliente debe tener exactamente 8 o 11 caracteres numéricos',
   })
   dni_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'La razón social del cliente no debe estar vacía' })
+  @IsString({ message: 'La razón social del cliente debe ser una cadena de caracteres' })
   razon_social_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'El representante del cliente no debe estar vacío' })
+  @IsString({ message: 'El representante del cliente debe ser una cadena de caracteres' })
   representante_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'La clave del cliente no debe estar vacía' })
+  @IsString({ message: 'La clave del cliente debe ser una cadena de caracteres' })
   clave_cliente!: string;
 
-  @IsNotEmpty()
-  @IsNumber()
+  @IsNotEmpty({ message: 'El ID del vendedor no debe estar vacío' })
+  @IsNumber({}, { message: 'El ID del vendedor debe ser un número' })
   id_vendedor_usuario_cliente!: number;
 
-  @IsNotEmpty()
-  @IsDecimal({ decimal_digits: '4' })
+  @IsNotEmpty({ message: 'El límite de crédito no debe estar vacío' })
+  @IsDecimal({ decimal_digits: '4' }, { message: 'El límite de crédito debe ser un número con hasta 4 decimales' })
   limite_credito_cliente!: number;
 
-  @IsNotEmpty()
-  @IsDecimal({ decimal_digits: '4' })
+  @IsNotEmpty({ message: 'La alerta de crédito no debe estar vacía' })
+  @IsDecimal({ decimal_digits: '4' }, { message: 'La alerta de crédito debe ser un número con hasta 4 decimales' })
   alerta_credito_cliente!: number;
 
-  @IsNotEmpty()
-  @IsString()
-  @Length(11, 11)
+  @IsNotEmpty({ message: 'El ubigeo no debe estar vacío' })
+  @IsString({ message: 'El ubigeo debe ser una cadena de caracteres' })
   ubigeo_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'La dirección del cliente no debe estar vacía' })
+  @IsString({ message: 'La dirección del cliente debe ser una cadena de caracteres' })
   direccion_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'Las referencias del cliente no deben estar vacías' })
+  @IsString({ message: 'Las referencias del cliente deben ser una cadena de caracteres' })
   referencias_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'El contacto del cliente no debe estar vacío' })
+  @IsString({ message: 'El contacto del cliente debe ser una cadena de caracteres' })
   contacto_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Length(9, 9)
+  @IsNotEmpty({ message: 'El teléfono del cliente no debe estar vacío' })
+  @IsString({ message: 'El teléfono del cliente debe ser una cadena de caracteres' })
+  @Length(9, 9, { message: 'El teléfono del cliente debe tener exactamente 9 caracteres' })
   telefono_cliente!: string;
 
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: 'El correo electrónico no debe estar vacío' })
+  @IsEmail({}, { message: 'El correo electrónico no tiene un formato válido' })
   email_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'El área del cliente no debe estar vacía' })
+  @IsString({ message: 'El área del cliente debe ser una cadena de caracteres' })
   area_cliente!: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'El logo del cliente no debe estar vacío' })
+  @IsString({ message: 'El logo del cliente debe ser una cadena de caracteres' })
   logo_cliente!: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({}, { message: 'El ID del creador debe ser un número' })
   id_creador_cliente?: number;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'El estado debe ser una cadena de caracteres' })
   estado?: string;
 
   @IsOptional()
@@ -82,81 +81,55 @@ export class CreateClientDto {
   fecha_actualizado?: Date;
 }
 
-export class UpdateClientDto {
+export class UpdateClientDto extends CreateClientDto {
   @IsOptional()
-  @IsString()
-  @Length(11, 11)
-  dni_cliente?: string;
+  dni_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  razon_social_cliente?: string;
+  razon_social_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  representante_cliente?: string;
+  representante_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  clave_cliente?: string;
+  clave_cliente !: string;
 
   @IsOptional()
-  @IsNumber()
-  id_vendedor_usuario_cliente?: number;
+  id_vendedor_usuario_cliente !: number;
 
   @IsOptional()
-  @IsDecimal({ decimal_digits: '4' })
-  limite_credito_cliente?: number;
+  limite_credito_cliente !: number;
 
   @IsOptional()
-  @IsDecimal({ decimal_digits: '4' })
-  alerta_credito_cliente?: number;
+  alerta_credito_cliente !: number;
 
   @IsOptional()
-  @IsString()
-  @Length(11, 11)
-  ubigeo_cliente?: string;
+  ubigeo_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  direccion_cliente?: string;
+  direccion_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  referencias_cliente?: string;
+  referencias_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  contacto_cliente?: string;
+  contacto_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  @Length(9, 9)
-  telefono_cliente?: string;
+  telefono_cliente !: string;
 
   @IsOptional()
-  @IsEmail()
-  email_cliente?: string;
+  email_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  area_cliente?: string;
+  area_cliente !: string;
 
   @IsOptional()
-  @IsString()
-  logo_cliente?: string;
+  logo_cliente !: string;
 
   @IsOptional()
-  @IsNumber()
-  id_creador_cliente?: number;
+  id_creador_cliente ?: number;
 
   @IsOptional()
-  @IsString()
   estado?: string;
-
-  @IsOptional()
-  fecha_creado?: Date;
-
-  @IsOptional()
-  fecha_actualizado?: Date;
 }

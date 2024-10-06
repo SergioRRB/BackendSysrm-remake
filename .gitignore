@@ -1,5 +1,16 @@
 administracion-service/node_modules
 administracion-service/.env
+comercial-service/node_modules
+comercial-service/.env
+liquidacion-service/node_modules
+liquidacion-service/.env
+login-service/node_modules
+login-service/.env
+operaciones-service/node_modules
+operaciones-service/.env
+tarifarios-service/node_modules
+tarifarios-service/.env
 usuario-service/node_modules
+usuario-service/.env
 dist
 .env

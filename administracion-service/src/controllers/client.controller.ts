@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
 import { createClient, getAllClients, updateClient, deleteClient } from '../services/client.service';
-import { CreateClientDto } from '../dtos/client.dto';
+import { CreateClientDto, UpdateClientDto } from '../dtos/client.dto';
 import { validate } from 'class-validator';
 
 export const addClientController = async (req: Request, res: Response): Promise<void> => {
   try {
     const createClientDto = Object.assign(new CreateClientDto(), req.body);
-    Object.assign(createClientDto, req.body);
-
     const errors = await validate(createClientDto);
+
     if (errors.length > 0) {
       res.status(400).json({ errors: errors.map(err => err.constraints) });
       return;
@@ -18,7 +17,11 @@ export const addClientController = async (req: Request, res: Response): Promise<
     res.status(201).json(newClient);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ message: `Error al crear cliente: ${error.message}` });
+      if (error.message === 'El DNI ya está registrado') {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: `Error al crear cliente: ${error.message}` });
+      }
     } else {
       res.status(500).json({ message: `Error desconocido al crear cliente` });
     }
@@ -44,6 +47,14 @@ export const updateClientController = async (req: Request, res: Response): Promi
     const clientId = parseInt(req.params.id, 10);
     if (isNaN(clientId)) {
       res.status(400).json({ message: "ID de cliente no válido" });
+      return;
+    }
+
+    const updateClientDto = Object.assign(new UpdateClientDto(), req.body);
+    const errors = await validate(updateClientDto);
+
+    if (errors.length > 0) {
+      res.status(400).json({ errors: errors.map(err => err.constraints) });
       return;
     }
 
