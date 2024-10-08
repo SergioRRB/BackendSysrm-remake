@@ -1,14 +1,13 @@
 // app
 import express from "express";
 import cors from "cors";
-//import clientRoutes from './routes/client.routes';
-//import areaRoutes from './routes/area.routes';
+import listarClientesRoutes from './routes/listarTarifarioRoutes/listarClientes.routes';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-//app.use('/api/client', clientRoutes);
-//app.use('/api/area', areaRoutes);
+// Rutas para listar clientes
+app.use('/api/tarifario', listarClientesRoutes);
 
 export default app;

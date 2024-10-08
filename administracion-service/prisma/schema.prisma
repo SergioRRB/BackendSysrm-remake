@@ -8,20 +8,21 @@ datasource db {
 }
 
 model areas {
-  id                  Int      @id @default(autoincrement())
+  id                  Int            @id @default(autoincrement())
   id_cliente_area     Int
-  nombre_area         String   @db.VarChar(250)
-  contacto_area       String   @db.VarChar(250)
-  cargo_contacto_area String   @db.VarChar(250)
-  telefono_area       String   @db.Char(9)
-  email_area          String   @db.VarChar(250)
-  contacto_extra_area String   @db.VarChar(250)
-  telefono_extra_area String   @db.Char(9)
-  email_extra_area    String   @db.VarChar(250)
+  nombre_area         String         @db.VarChar(250)
+  contacto_area       String         @db.VarChar(250)
+  cargo_contacto_area String         @db.VarChar(250)
+  telefono_area       String         @db.Char(9)
+  email_area          String         @db.VarChar(250)
+  contacto_extra_area String         @db.VarChar(250)
+  telefono_extra_area String         @db.Char(9)
+  email_extra_area    String         @db.VarChar(250)
   id_creador_area     Int?
-  estado              String   @default("1") @db.Char(1)
-  fecha_creado        DateTime @db.Date
-  fecha_actualizado   DateTime @default(now()) @db.Timestamp(0)
+  estado              String         @default("1") @db.Char(1)
+  fecha_creado        DateTime       @db.Date
+  fecha_actualizado   DateTime       @default(now()) @db.Timestamp(0)
+  cotizaciones        cotizaciones[]
 }
 
 model asignacion_recojos {
@@ -39,33 +40,34 @@ model asignacion_recojos {
 }
 
 model clientes {
-  id                          Int      @id @default(autoincrement())
-  dni_cliente                 String   @db.Char(11)
-  razon_social_cliente        String   @db.VarChar(250)
-  representante_cliente       String   @db.VarChar(250)
-  clave_cliente               String   @db.VarChar(250)
+  id                          Int            @id @default(autoincrement())
+  dni_cliente                 String         @db.Char(11)
+  razon_social_cliente        String         @db.VarChar(250)
+  representante_cliente       String         @db.VarChar(250)
+  clave_cliente               String         @db.VarChar(250)
   id_vendedor_usuario_cliente Int
-  limite_credito_cliente      Decimal  @db.Decimal(15, 4)
-  alerta_credito_cliente      Decimal  @db.Decimal(15, 4)
-  ubigeo_cliente              String   @db.Char(11)
-  direccion_cliente           String   @db.VarChar(250)
-  referencias_cliente         String   @db.VarChar(250)
-  contacto_cliente            String   @db.VarChar(250)
-  telefono_cliente            String   @db.Char(9)
-  email_cliente               String   @db.VarChar(250)
-  area_cliente                String   @db.VarChar(250)
-  logo_cliente                String   @db.VarChar(250)
+  limite_credito_cliente      Decimal        @db.Decimal(15, 4)
+  alerta_credito_cliente      Decimal        @db.Decimal(15, 4)
+  ubigeo_cliente              String         @db.Char(11)
+  direccion_cliente           String         @db.VarChar(250)
+  referencias_cliente         String         @db.VarChar(250)
+  contacto_cliente            String         @db.VarChar(250)
+  telefono_cliente            String         @db.Char(9)
+  email_cliente               String         @db.VarChar(250)
+  area_cliente                String         @db.VarChar(250)
+  logo_cliente                String         @db.VarChar(250)
   id_creador_cliente          Int?
-  estado                      String   @default("1") @db.Char(1)
-  fecha_creado                DateTime @db.Date
-  fecha_actualizado           DateTime @default(now()) @db.Timestamp(0)
+  estado                      String         @default("1") @db.Char(1)
+  fecha_creado                DateTime       @db.Date
+  fecha_actualizado           DateTime       @default(now()) @db.Timestamp(0)
+  cotizaciones                cotizaciones[]
 }
 
 model cotizaciones {
   id                           Int       @id @default(autoincrement())
   id_cotizacion                String    @db.Char(11)
-  id_cliente_cotizacion        Int
-  id_area_cotizacion           Int
+  id_cliente_cotizacion        Int?
+  id_area_cotizacion           Int?
   cantidad_destinos_cotizacion Int
   recibo_cotizacion            String    @db.Char(11)
   sub_total_cotizacion         Decimal   @db.Decimal(12, 1)
@@ -76,6 +78,11 @@ model cotizaciones {
   estado                       String    @default("1") @db.Char(1)
   fecha_creado                 DateTime? @db.Date
   fecha_actualizado            DateTime  @default(now()) @db.Timestamp(0)
+  areas                        areas?    @relation(fields: [id_area_cotizacion], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cotizaciones_areas")
+  clientes                     clientes? @relation(fields: [id_cliente_cotizacion], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cotizaciones_clientes")
+
+  @@index([id_area_cotizacion], map: "fk_cotizaciones_areas")
+  @@index([id_cliente_cotizacion], map: "fk_cotizaciones_clientes")
 }
 
 model cotizaciones_destinos {
