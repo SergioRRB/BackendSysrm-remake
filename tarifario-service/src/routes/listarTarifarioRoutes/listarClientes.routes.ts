@@ -1,13 +1,20 @@
 import { Router } from "express";
-import listarClienteController from "../../controllers/listarTarifario/listarCliente.controller";
+import {
+  listTarifaClienteAereo,
+  //listTarifaCorporativoCarga,
+  //listTarifaCorporativoCourrier,
+  //listTarifaCorporativoInverso,
+  //listTarifaCorporativoTransito,
+  //listTarifaCorporativoValorizado,
+} from "../../controllers/listarTarifario/listarCliente.controller";
 
 const router = Router();
 
-router.get("/aereo/:id", listarClienteController.listarAereo);
-//router.get("/carga/:id", listarClienteController.listarCarga);
-//router.get("/courrier/:id", listarClienteController.listarCourrier);
-//router.get("/inverso/:id", listarClienteController.listarInverso);
-//router.get("/transito/:id", listarClienteController.listarTransito);
-//router.get("/valorizado/:id", listarClienteController.listarValorizado);
+router.get("/getAereoCliente/:id", listTarifaClienteAereo);
+//router.get("/getCargaCorporativo/:id", listTarifaCorporativoCarga);
+//router.get("/getCourrierCorporativo/:id", listTarifaCorporativoCourrier);
+//router.get("/getInversoCorporativo/:id", listTarifaCorporativoInverso);
+//router.get("/getTransitoCorporativo/:id", listTarifaCorporativoTransito);
+//router.get("/getValorizadoCorporativo/:id", listTarifaCorporativoValorizado);
 
 export default router;

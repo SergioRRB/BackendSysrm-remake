@@ -558,7 +558,8 @@ model tarifarios_clientes_aereos {
   id                                   Int      @id @default(autoincrement())
   id_cliente_tarifario_cliente_aereo   Int
   id_area_tarifario_cliente_aereo      Int
-  ubigeo_tarifario_cliente_aereo       String   @db.Char(11)
+  ubigeo                               ubigeo?  @relation(fields: [ubigeo_tarifario_cliente_aereo], references: [UBIGEO])
+  ubigeo_tarifario_cliente_aereo       Int // Cambiado de String a Int
   kg_tarifario_cliente_aereo           Decimal  @db.Decimal(12, 1)
   kg_adicional_tarifario_cliente_aereo Decimal  @db.Decimal(12, 1)
   tmin_tarifario_cliente_aereo         Int
@@ -633,12 +634,13 @@ model tarifarios_transportistas_courriers {
 }
 
 model ubigeo {
-  UBIGEO       Int     @id
-  DEPARTAMENTO String? @db.Text
-  PROVINCIA    String? @db.Text
-  DESTINO      String? @db.Text
-  Zona         String? @db.Text
-  id           Int?
+  UBIGEO                     Int                          @id
+  DEPARTAMENTO               String?                      @db.Text
+  PROVINCIA                  String?                      @db.Text
+  DESTINO                    String?                      @db.Text
+  Zona                       String?                      @db.Text
+  id                         Int?
+  tarifarios_clientes_aereos tarifarios_clientes_aereos[] // Relación opuesta
 }
 
 model usuarios {
