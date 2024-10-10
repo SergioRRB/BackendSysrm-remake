@@ -10,7 +10,8 @@ import {
 
 const router = Router();
 
-router.get("/getAereoCliente/:id", listTarifaClienteAereo);
+router.get("/getAereoCliente/:id_cliente/:id_area", listTarifaClienteAereo);
+//router.get("/getAereoCliente/:id", listTarifaClienteAereo);
 //router.get("/getCargaCorporativo/:id", listTarifaCorporativoCarga);
 //router.get("/getCourrierCorporativo/:id", listTarifaCorporativoCourrier);
 //router.get("/getInversoCorporativo/:id", listTarifaCorporativoInverso);
