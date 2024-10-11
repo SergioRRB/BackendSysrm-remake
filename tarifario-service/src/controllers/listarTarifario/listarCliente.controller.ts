@@ -21,25 +21,56 @@ export const listTarifaClienteAereo = async (req: Request, res: Response) => {
   }
 };
 
-/*
-export const listTarifaCorporativoCarga = async (
+// Método para carga cliente
+export const listTarifaClienteCarga = async (req: Request, res: Response) => {
+  try {
+    const id_cliente = parseInt(req.params.id_cliente);
+    const id_area = parseInt(req.params.id_area);
+
+    const tarifarioClienteCarga = await TarifarioClienteService.carga(
+      id_cliente,
+      id_area,
+    );
+    res.json(tarifarioClienteCarga);
+  } catch (error) {
+    console.error("Error al obtener el tarifario cliente carga:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const listTarifaClienteCourrier = async (
   req: Request,
   res: Response,
 ) => {
   try {
-    const { id } = req.params;
-    const result = await CorporativoService.carga(parseInt(id, 10));
-    if (result.length === 0)
-      return res.status(404).json({ message: "No se encontraron tarifas." });
-    res.status(200).json(result);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({ message: error.message });
-    } else {
-      res.status(500).json({ message: "An unknown error occurred." });
-    }
+    const id_cliente = parseInt(req.params.id_cliente);
+    const id_area = parseInt(req.params.id_area);
+
+    const tarifarioClienteCourrier = await TarifarioClienteService.courrier(
+      id_cliente,
+      id_area,
+    );
+    res.json(tarifarioClienteCourrier);
+  } catch (error) {
+    console.error("Error al obtener el tarifario cliente courrier:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
-*/
 
-// Repite lo mismo para los otros controladores...
+export const listTarifaClienteValorizado = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const id_cliente = parseInt(req.params.id_cliente);
+    const id_area = parseInt(req.params.id_area);
+
+    const tarifarioClienteValorizado =
+      await TarifarioClienteService.valorizados(id_cliente, id_area);
+
+    res.json(tarifarioClienteValorizado);
+  } catch (error) {
+    console.error("Error al obtener el tarifario cliente valorizado:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};

@@ -8,22 +8,25 @@ datasource db {
 }
 
 model areas {
-  id                  Int            @id @default(autoincrement())
-  id_cliente_area     Int
-  nombre_area         String         @db.VarChar(250)
-  contacto_area       String         @db.VarChar(250)
-  cargo_contacto_area String         @db.VarChar(250)
-  telefono_area       String         @db.Char(9)
-  email_area          String         @db.VarChar(250)
-  contacto_extra_area String         @db.VarChar(250)
-  telefono_extra_area String         @db.Char(9)
-  email_extra_area    String         @db.VarChar(250)
-  id_creador_area     Int?
-  estado              String         @default("1") @db.Char(1)
-  fecha_creado        DateTime       @db.Date
-  fecha_actualizado   DateTime       @default(now()) @db.Timestamp(0)
-  cotizaciones        cotizaciones[]
-  tarifarios_clientes_aereos   tarifarios_clientes_aereos[]
+  id                              Int                               @id @default(autoincrement())
+  id_cliente_area                 Int
+  nombre_area                     String                            @db.VarChar(250)
+  contacto_area                   String                            @db.VarChar(250)
+  cargo_contacto_area             String                            @db.VarChar(250)
+  telefono_area                   String                            @db.Char(9)
+  email_area                      String                            @db.VarChar(250)
+  contacto_extra_area             String                            @db.VarChar(250)
+  telefono_extra_area             String                            @db.Char(9)
+  email_extra_area                String                            @db.VarChar(250)
+  id_creador_area                 Int?
+  estado                          String                            @default("1") @db.Char(1)
+  fecha_creado                    DateTime                          @db.Date
+  fecha_actualizado               DateTime                          @default(now()) @db.Timestamp(0)
+  cotizaciones                    cotizaciones[]
+  tarifarios_clientes_aereos      tarifarios_clientes_aereos[]
+  tarifarios_clientes_cargas      tarifarios_clientes_cargas[]
+  tarifarios_clientes_courriers   tarifarios_clientes_courriers[]
+  tarifarios_clientes_valorizados tarifarios_clientes_valorizados[]
 }
 
 model asignacion_recojos {
@@ -41,28 +44,31 @@ model asignacion_recojos {
 }
 
 model clientes {
-  id                          Int            @id @default(autoincrement())
-  dni_cliente                 String         @db.Char(11)
-  razon_social_cliente        String         @db.VarChar(250)
-  representante_cliente       String         @db.VarChar(250)
-  clave_cliente               String         @db.VarChar(250)
-  id_vendedor_usuario_cliente Int
-  limite_credito_cliente      Decimal        @db.Decimal(15, 4)
-  alerta_credito_cliente      Decimal        @db.Decimal(15, 4)
-  ubigeo_cliente              String         @db.Char(11)
-  direccion_cliente           String         @db.VarChar(250)
-  referencias_cliente         String         @db.VarChar(250)
-  contacto_cliente            String         @db.VarChar(250)
-  telefono_cliente            String         @db.Char(9)
-  email_cliente               String         @db.VarChar(250)
-  area_cliente                String         @db.VarChar(250)
-  logo_cliente                String         @db.VarChar(250)
-  id_creador_cliente          Int?
-  estado                      String         @default("1") @db.Char(1)
-  fecha_creado                DateTime       @db.Date
-  fecha_actualizado           DateTime       @default(now()) @db.Timestamp(0)
-  cotizaciones                cotizaciones[]
-  tarifarios_clientes_aereos   tarifarios_clientes_aereos[]
+  id                              Int                               @id @default(autoincrement())
+  dni_cliente                     String                            @db.Char(11)
+  razon_social_cliente            String                            @db.VarChar(250)
+  representante_cliente           String                            @db.VarChar(250)
+  clave_cliente                   String                            @db.VarChar(250)
+  id_vendedor_usuario_cliente     Int
+  limite_credito_cliente          Decimal                           @db.Decimal(15, 4)
+  alerta_credito_cliente          Decimal                           @db.Decimal(15, 4)
+  ubigeo_cliente                  String                            @db.Char(11)
+  direccion_cliente               String                            @db.VarChar(250)
+  referencias_cliente             String                            @db.VarChar(250)
+  contacto_cliente                String                            @db.VarChar(250)
+  telefono_cliente                String                            @db.Char(9)
+  email_cliente                   String                            @db.VarChar(250)
+  area_cliente                    String                            @db.VarChar(250)
+  logo_cliente                    String                            @db.VarChar(250)
+  id_creador_cliente              Int?
+  estado                          String                            @default("1") @db.Char(1)
+  fecha_creado                    DateTime                          @db.Date
+  fecha_actualizado               DateTime                          @default(now()) @db.Timestamp(0)
+  cotizaciones                    cotizaciones[]
+  tarifarios_clientes_aereos      tarifarios_clientes_aereos[]
+  tarifarios_clientes_cargas      tarifarios_clientes_cargas[]
+  tarifarios_clientes_courriers   tarifarios_clientes_courriers[]
+  tarifarios_clientes_valorizados tarifarios_clientes_valorizados[]
 }
 
 model cotizaciones {
@@ -576,8 +582,8 @@ model tarifarios_clientes_aereos {
 model tarifarios_clientes_cargas {
   id                                        Int      @id @default(autoincrement())
   id_cliente_tarifario_cliente_carga        Int
-  id_area_tarifario_cliente_carga           Int
-  ubigeo_tarifario_cliente_carga            String   @db.Char(11)
+  id_area_tarifario_cliente_carga           Int // Campo para la relación con areas
+  ubigeo_tarifario_cliente_carga            Int // Cambia el tipo a Int para que coincida con UBIGEO
   kg_maximo_tarifario_cliente_carga         Decimal  @db.Decimal(12, 1)
   kg_base_adicional_tarifario_cliente_carga Decimal  @db.Decimal(12, 1)
   paquete_tarifario_cliente_carga           Decimal  @db.Decimal(12, 1)
@@ -585,32 +591,41 @@ model tarifarios_clientes_cargas {
   tmax_tarifario_cliente_carga              Int
   id_creador_tarifario_cliente_carga        Int?
   fecha_creado                              DateTime @db.Date
+  ubigeo                                    ubigeo?  @relation(fields: [ubigeo_tarifario_cliente_carga], references: [UBIGEO])
+  area                                      areas?   @relation(fields: [id_area_tarifario_cliente_carga], references: [id])
+  cliente                                   clientes @relation(fields: [id_cliente_tarifario_cliente_carga], references: [id])
 }
 
 model tarifarios_clientes_courriers {
   id                                      Int      @id @default(autoincrement())
   id_cliente_tarifario_cliente_courrier   Int
   id_area_tarifario_cliente_courrier      Int
-  ubigeo_tarifario_cliente_courrier       String   @db.Char(11)
+  ubigeo_tarifario_cliente_courrier       Int // Asegúrate de que sea Int
   kg_tarifario_cliente_courrier           Decimal  @db.Decimal(12, 1)
   kg_adicional_tarifario_cliente_courrier Decimal  @db.Decimal(12, 1)
   tmin_tarifario_cliente_courrier         Int
   tmax_tarifario_cliente_courrier         Int
   id_creador_tarifario_cliente_courrier   Int?
   fecha_creado                            DateTime @db.Date
+  ubigeo                                  ubigeo?  @relation(fields: [ubigeo_tarifario_cliente_courrier], references: [UBIGEO])
+  cliente                                 clientes @relation(fields: [id_cliente_tarifario_cliente_courrier], references: [id])
+  area                                    areas    @relation(fields: [id_area_tarifario_cliente_courrier], references: [id])
 }
 
 model tarifarios_clientes_valorizados {
   id                                          Int      @id @default(autoincrement())
   id_cliente_tarifario_cliente_valorizado     Int
   id_area_tarifario_cliente_valorizado        Int
-  ubigeo_tarifario_cliente_valorizado         String   @db.Char(11)
+  ubigeo_tarifario_cliente_valorizado         Int // Change from String to Int
   producto_tarifario_cliente_valorizado       String   @db.VarChar(250)
   costo_producto_tarifario_cliente_valorizado Decimal  @db.Decimal(12, 1)
   tmin_tarifario_cliente_valorizado           Int
   tmax_tarifario_cliente_valorizado           Int
   id_creador_tarifario_cliente_valorizado     Int?
   fecha_creado                                DateTime @db.Date
+  ubigeo                                      ubigeo?  @relation(fields: [ubigeo_tarifario_cliente_valorizado], references: [UBIGEO])
+  cliente                                     clientes @relation(fields: [id_cliente_tarifario_cliente_valorizado], references: [id])
+  area                                        areas    @relation(fields: [id_area_tarifario_cliente_valorizado], references: [id])
 }
 
 model tarifarios_transportistas_cargas {
@@ -627,13 +642,16 @@ model tarifarios_transportistas_cargas {
 }
 
 model ubigeo {
-  UBIGEO                     Int                          @id
-  DEPARTAMENTO               String?                      @db.Text
-  PROVINCIA                  String?                      @db.Text
-  DESTINO                    String?                      @db.Text
-  Zona                       String?                      @db.Text
-  id                         Int?
-  tarifarios_clientes_aereos tarifarios_clientes_aereos[] // Relación inversa
+  UBIGEO                          Int                               @id
+  DEPARTAMENTO                    String?                           @db.Text
+  PROVINCIA                       String?                           @db.Text
+  DESTINO                         String?                           @db.Text
+  Zona                            String?                           @db.Text
+  id                              Int?
+  tarifarios_clientes_aereos      tarifarios_clientes_aereos[]
+  tarifarios_clientes_cargas      tarifarios_clientes_cargas[]
+  tarifarios_clientes_courriers   tarifarios_clientes_courriers[]
+  tarifarios_clientes_valorizados tarifarios_clientes_valorizados[]
 }
 
 model usuarios {
