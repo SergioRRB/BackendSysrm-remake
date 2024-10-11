@@ -8,8 +8,8 @@ login-service/node_modules
 login-service/.env
 operaciones-service/node_modules
 operaciones-service/.env
-tarifarios-service/node_modules
-tarifarios-service/.env
+tarifario-service/node_modules
+tarifario-service/.env
 usuario-service/node_modules
 usuario-service/.env
 dist

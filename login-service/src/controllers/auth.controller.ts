@@ -24,13 +24,12 @@ export const loginController = async (req: Request, res: Response): Promise<void
 
     // Almacenar el token JWT en una cookie HTTP
     res.cookie('token', token, {
-      httpOnly: true, // La cookie solo se puede acceder a través de HTTP (no por JavaScript)
-      secure: process.env.NODE_ENV === 'production', // En producción, las cookies deben ser seguras (HTTPS)
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
       maxAge: 3600000, // La cookie expira en 1 hora
     });
 
-    // Enviamos el ID del usuario como respuesta (opcional)
-    res.status(200).json({ userId });
+    res.status(200).json({ token, userId });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
