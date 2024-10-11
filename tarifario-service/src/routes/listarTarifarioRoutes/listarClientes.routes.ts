@@ -1,21 +1,22 @@
 import { Router } from "express";
 import {
   listTarifaClienteAereo,
-  //listTarifaCorporativoCarga,
-  //listTarifaCorporativoCourrier,
-  //listTarifaCorporativoInverso,
-  //listTarifaCorporativoTransito,
-  //listTarifaCorporativoValorizado,
+  listTarifaClienteCarga,
+  listTarifaClienteCourrier,
+  listTarifaClienteValorizado,
 } from "../../controllers/listarTarifario/listarCliente.controller";
 
 const router = Router();
 
 router.get("/getAereoCliente/:id_cliente/:id_area", listTarifaClienteAereo);
-//router.get("/getAereoCliente/:id", listTarifaClienteAereo);
-//router.get("/getCargaCorporativo/:id", listTarifaCorporativoCarga);
-//router.get("/getCourrierCorporativo/:id", listTarifaCorporativoCourrier);
-//router.get("/getInversoCorporativo/:id", listTarifaCorporativoInverso);
-//router.get("/getTransitoCorporativo/:id", listTarifaCorporativoTransito);
-//router.get("/getValorizadoCorporativo/:id", listTarifaCorporativoValorizado);
+router.get("/getCargaCliente/:id_cliente/:id_area", listTarifaClienteCarga); // Nueva ruta para cargas
+router.get(
+  "/getCourierCliente/:id_cliente/:id_area",
+  listTarifaClienteCourrier,
+);
+router.get(
+  "/getValorizadoCliente/:id_cliente/:id_area",
+  listTarifaClienteValorizado,
+);
 
 export default router;
