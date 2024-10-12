@@ -1,24 +1,27 @@
-import { NextFunction, Request, Response } from "express";
-import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";
+import { Request, Response, NextFunction } from "express";
 
 export const validateDto = (dtoClass: any) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const dtoObject = plainToInstance(dtoClass, req.body);
-    const errors = await validate(dtoObject);
+    // Convertir parámetros a número temporalmente
+    const id_cliente = Number(req.params.id_cliente);
+    const id_area = Number(req.params.id_area);
 
+    // Asignar los valores convertidos en el objeto DTO
+    const dtoObj = plainToInstance(dtoClass, {
+      ...req.params,
+      id_cliente,
+      id_area,
+    });
+
+    const errors = await validate(dtoObj as object);
     if (errors.length > 0) {
-      console.error("Errores de validación:", errors);
-
       return res.status(400).json({
-        message: "Error de validación",
-        errors: errors.map((err) => ({
-          property: err.property,
-          constraints: err.constraints,
-        })),
+        message: "Errores de validación",
+        errors: errors.map((err) => err.constraints),
       });
     }
-
     next();
   };
 };
