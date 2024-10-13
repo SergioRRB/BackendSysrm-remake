@@ -1,28 +1,37 @@
-// src/controllers/listarTarifario/listarAgente.controller.ts
 import { Request, Response } from "express";
 import { TarifarioAgenteAereoService } from "../../services/listarTarifarioService/AgenteTarifario/listAereos/listAereo.service";
-import { ListarAgenteDto } from "../../dtos/listarTarifarioDto/listarAgente.dto"; // Asegúrate de que la ruta del DTO es correcta
-import { validateDto } from "../../middlewares/validate"; // Importa el middleware de validación
+import { TarifarioAgenteCourrierService } from "../../services/listarTarifarioService/AgenteTarifario/listCourriers/listCourrier.service";
 
-export const listarAgenteAereo = {
-  async getAereoAgente(req: Request, res: Response) {
-    const { id_agente } = req.body; // Obtén el id_agente del cuerpo de la solicitud
-
-    // Verifica si el ID es un número válido
-    if (isNaN(id_agente) || id_agente <= 0) {
-      return res.status(400).json({
-        message: "El ID del agente no es válido",
-      });
-    }
-
+export const TarifaAgenteController = {
+  async listTarifaAgenteAereo(req: Request, res: Response) {
     try {
-      const tarifas = await TarifarioAgenteAereoService.aereo(id_agente);
-      return res.json(tarifas);
+      const id_agente = parseInt(req.params.id_agente);
+
+      // Llama al servicio para obtener los datos de tarifas aéreas
+      const tarifarioAgenteAereo =
+        await TarifarioAgenteAereoService.aereo(id_agente);
+
+      // Devuelve los datos en la respuesta
+      return res.json(tarifarioAgenteAereo);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error al obtener las tarifas",
-      });
+      console.error("Error al obtener el tarifario agente aéreo:", error);
+      return res.status(500).json({ error: "Error interno del servidor" });
+    }
+  },
+
+  async listTarifaAgenteCourrier(req: Request, res: Response) {
+    try {
+      const id_agente = parseInt(req.params.id_agente);
+
+      // Llama al servicio para obtener los datos de tarifas de courriers
+      const tarifarioAgenteCourrier =
+        await TarifarioAgenteCourrierService.courrier(id_agente);
+
+      // Devuelve los datos en la respuesta
+      return res.json(tarifarioAgenteCourrier);
+    } catch (error) {
+      console.error("Error al obtener el tarifario agente courrier:", error);
+      return res.status(500).json({ error: "Error interno del servidor" });
     }
   },
 };

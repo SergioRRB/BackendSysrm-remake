@@ -1,19 +1,18 @@
 import { Router } from "express";
-import { listarAgenteAereo } from "../../controllers/listarTarifario/listarAgente.controller";
-import { validateDto } from "../../middlewares/validate";
-import { ListarAgenteDto } from "../../dtos/listarTarifarioDto/listarAgente.dto"; // Asegúrate de que la ruta del DTO es correcta
 
+import { TarifaAgenteController } from "../../controllers/listarTarifario/listarAgente.controller";
 const router = Router();
 
-// Ruta para listar tarifas de un agente aéreo específico con validación de DTO
+// retorna lista vacia ya que no hay data en la tabla.
 
 router.get(
   "/getAereoAgente/:id_agente",
-  validateDto(ListarAgenteDto), // Aplica la validación
-  listarAgenteAereo.getAereoAgente,
+  TarifaAgenteController.listTarifaAgenteAereo,
 );
 
-// retorna lista vacia ya que no hay data en la tabla.
-//router.get("/getAereoAgente/:id_agente", listarAgenteAereo.getAereoAgente);
+router.get(
+  "/getCourrierAgente/:id_agente",
+  TarifaAgenteController.listTarifaAgenteCourrier,
+);
 
 export default router;

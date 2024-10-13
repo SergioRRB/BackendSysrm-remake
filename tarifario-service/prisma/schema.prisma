@@ -332,7 +332,8 @@ model proveedores {
   fecha_creado            DateTime @db.Date
   fecha_actualizado       DateTime @default(now()) @db.Timestamp(0)
 
-  tarifarios_agentes_aereos  tarifarios_agentes_aereos[] @relation("ProveedorTarifario")
+  tarifarios_agentes_aereos       tarifarios_agentes_aereos[] @relation("ProveedorTarifario")
+  tarifarios_agentes_courriers    tarifarios_agentes_courriers[] @relation("ProveedorTarifario") // Asegúrate de que el nombre sea el mismo
 }
 
 model provincias {
@@ -559,13 +560,15 @@ model tarifarios_agentes_aereos {
 model tarifarios_agentes_courriers {
   id                                     Int      @id @default(autoincrement())
   id_agente_tarifario_agente_courrier    Int
-  ubigeo_tarifario_agente_courrier       String   @db.Char(11)
+  ubigeo_tarifario_agente_courrier       Int      // Asegurado a Int
   kg_tarifario_agente_courrier           Decimal  @db.Decimal(12, 1)
   kg_adicional_tarifario_agente_courrier Decimal  @db.Decimal(12, 1)
   tmin_tarifario_agente_courrier         Int
   tmax_tarifario_agente_courrier         Int
   id_creador_tarifario_agente_courrier   Int?
   fecha_creado                           DateTime @db.Date
+  ubigeo                                 ubigeo?  @relation(fields: [ubigeo_tarifario_agente_courrier], references: [UBIGEO], name: "UbigeoTarifarios")
+  proveedor                              proveedores? @relation("ProveedorTarifario", fields: [id_agente_tarifario_agente_courrier], references: [id])
 }
 
 model tarifarios_clientes_aereos {
@@ -657,7 +660,8 @@ model ubigeo {
   tarifarios_clientes_cargas      tarifarios_clientes_cargas[]
   tarifarios_clientes_courriers   tarifarios_clientes_courriers[]
   tarifarios_clientes_valorizados tarifarios_clientes_valorizados[]
-  tarifarios_agentes_aereos       tarifarios_agentes_aereos[] @relation("TarifariosUbigeo") // Relación opuesta
+  tarifarios_agentes_aereos       tarifarios_agentes_aereos[] @relation("TarifariosUbigeo")
+  tarifarios_agentes_courriers    tarifarios_agentes_courriers[] @relation("UbigeoTarifarios")
 }
 
 model usuarios {

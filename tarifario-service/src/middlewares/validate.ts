@@ -1,8 +1,9 @@
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { Request, Response, NextFunction } from "express";
+import { plainToClass } from "class-transformer";
 
-export const validateDto = (dtoClass: any) => {
+export const validateDtoCliente = (dtoClass: any) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     // Convertir parámetros a número temporalmente
     const id_cliente = Number(req.params.id_cliente);
@@ -25,3 +26,18 @@ export const validateDto = (dtoClass: any) => {
     next();
   };
 };
+/*
+export function validateDtoAgente<T extends object>(type: new () => T) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.params); // Agrega esta línea para depurar
+    const instance = plainToClass(type, req.params);
+    const errors = await validate(instance);
+
+    if (errors.length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    next();
+  };
+}
+*/

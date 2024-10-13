@@ -5,31 +5,31 @@ import {
   listTarifaClienteCourrier,
   listTarifaClienteValorizado,
 } from "../../controllers/listarTarifario/listarCliente.controller";
-import { validateDto } from "../../middlewares/validate";
+import { validateDtoCliente } from "../../middlewares/validate";
 import { ListarClienteDto } from "../../dtos/listarTarifarioDto/listarCliente.dto";
 
 const router = Router();
 
 router.get(
   "/getAereoCliente/:id_cliente/:id_area",
-  validateDto(ListarClienteDto),
+  validateDtoCliente(ListarClienteDto),
   listTarifaClienteAereo,
 );
 
 router.get(
   "/getCargaCliente/:id_cliente/:id_area",
-  validateDto(ListarClienteDto),
+  validateDtoCliente(ListarClienteDto),
   listTarifaClienteCarga,
 );
 
 router.get(
   "/getCourrierCliente/:id_cliente/:id_area",
-  validateDto(ListarClienteDto),
+  validateDtoCliente(ListarClienteDto),
   listTarifaClienteCourrier,
 );
 router.get(
   "/getValorizadoCliente/:id_cliente/:id_area",
-  validateDto(ListarClienteDto),
+  validateDtoCliente(ListarClienteDto),
   listTarifaClienteValorizado,
 );
 
