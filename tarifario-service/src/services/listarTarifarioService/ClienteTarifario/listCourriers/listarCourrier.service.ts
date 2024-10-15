@@ -40,9 +40,7 @@ export const TarifarioClienteCourrierService = {
             },
           },
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: {id: "desc",},
       });
 
     return tarifarioClienteCourrier;

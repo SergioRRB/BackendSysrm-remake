@@ -40,9 +40,7 @@ export const TarifarioClienteAereoService = {
             },
           },
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: { id: "desc",},
       });
 
     return tarifarioClienteAereo;

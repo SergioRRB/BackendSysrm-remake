@@ -42,11 +42,8 @@ export const TarifarioClienteValorizadoService = {
             },
           },
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: {id: "desc",},
       });
-
     return tarifarioClienteValorizado;
   },
 };

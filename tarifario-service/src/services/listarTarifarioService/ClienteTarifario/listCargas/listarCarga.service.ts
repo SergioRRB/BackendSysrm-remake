@@ -41,9 +41,7 @@ export const TarifarioClienteCargaService = {
             },
           },
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: {id: "desc",},
       });
 
     return tarifarioClienteCarga;
