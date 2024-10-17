@@ -1,11 +1,10 @@
-//export
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export const ExportarTarifarioAgenteCourrierService = {
   async courrier(id_agente: number) {
-    const exportarTarifarioAgenteCourrier =
+    const expAgenteCourrier =
       await prisma.tarifarios_agentes_courriers.findMany({
         where: {
           id_agente_tarifario_agente_courrier: id_agente,
@@ -24,7 +23,7 @@ export const ExportarTarifarioAgenteCourrierService = {
           },
           proveedor: {
             select: {
-              id: true, // Cambia esto según lo que necesites
+              id: true,
             },
           },
         },
@@ -33,8 +32,6 @@ export const ExportarTarifarioAgenteCourrierService = {
         },
       });
 
-    return exportarTarifarioAgenteCourrier;
+    return expAgenteCourrier;
   },
 };
-
-export default ExportarTarifarioAgenteCourrierService;

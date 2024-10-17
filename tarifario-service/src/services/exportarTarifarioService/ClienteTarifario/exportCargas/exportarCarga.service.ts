@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const ExportarTarifarioClienteCargaService = {
   async cargaCliente(id_cliente: number, id_area: number) {
-    const tarifarioCarga = await prisma.tarifarios_clientes_cargas.findMany({
+    const expClienteCarga = await prisma.tarifarios_clientes_cargas.findMany({
       where: {
         id_cliente_tarifario_cliente_carga: id_cliente,
         id_area_tarifario_cliente_carga: id_area,
@@ -40,7 +40,7 @@ export const ExportarTarifarioClienteCargaService = {
       },
     });
 
-    return tarifarioCarga.map((item) => ({
+    return expClienteCarga.map((item) => ({
       Departamento: item.ubigeo?.DEPARTAMENTO,
       Provincia: item.ubigeo?.PROVINCIA,
       Distrito: item.ubigeo?.DESTINO,

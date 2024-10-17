@@ -7,17 +7,17 @@ export const ExportarTarifarioAgenteAereoController = {
     const { id_agente } = req.params; // Suponiendo que el ID se pasa como parámetro en la URL
 
     try {
-      const tarifarios = await ExportarTarifarioAgenteAereoService.aereo(
+      const expAgenteAereo = await ExportarTarifarioAgenteAereoService.aereo(
         Number(id_agente),
       );
 
-      if (tarifarios.length === 0) {
+      if (expAgenteAereo.length === 0) {
         return res.status(404).json({
           message: "No se encontraron tarifarios para este agente aereo.",
         });
       }
 
-      return res.status(200).json(tarifarios);
+      return res.status(200).json(expAgenteAereo);
     } catch (error) {
       console.error("Error al exportar tarifarios:", error);
       return res.status(500).json({ message: "Error interno del servidor." });
@@ -30,17 +30,18 @@ export const ExportarTarifarioAgenteCourrierController = {
     const { id_agente } = req.params; // Suponiendo que el ID se pasa como parámetro en la URL
 
     try {
-      const tarifarios = await ExportarTarifarioAgenteCourrierService.courrier(
-        Number(id_agente),
-      );
+      const expAgenteCourrier =
+        await ExportarTarifarioAgenteCourrierService.courrier(
+          Number(id_agente),
+        );
 
-      if (tarifarios.length === 0) {
+      if (expAgenteCourrier.length === 0) {
         return res.status(404).json({
           message: "No se encontraron tarifarios para este agente courrier.",
         });
       }
 
-      return res.status(200).json(tarifarios);
+      return res.status(200).json(expAgenteCourrier);
     } catch (error) {
       console.error("Error al exportar tarifarios:", error);
       return res.status(500).json({ message: "Error interno del servidor." });

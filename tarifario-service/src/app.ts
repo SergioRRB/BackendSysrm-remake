@@ -13,20 +13,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Rutas para listar clientes
+// List Routes
 app.use("/api/tarifario", listarClientesRoutes);
-
-// http://localhost:3001/api/tarifario/selectionTarifarioCliente?id_cliente=34&id_area=15&ubigeo=90101&tarifario=Courrier
-app.use("/api/tarifario", selectionTarifarioRoutes);
-
-app.use("/api/tarifario", listarAgentesRoutes); // Añadir las rutas de agentes
-
-// http://localhost:3001/api/tarifario/getCargaTransportista/id_transportista
+app.use("/api/tarifario", listarAgentesRoutes);
 app.use("/api/tarifario", listarTransportistasRoutes);
 
+// Export Routes
 app.use("/api/tarifario", exportarAgentesRoutes);
-
 app.use("/api/tarifario", exportarClientesRoutes);
 app.use("/api/tarifario", exportarTransportistasRoutes);
 
+// Selection Routes
+// http://localhost:3001/api/tarifario/selectionTarifarioCliente?id_cliente=34&id_area=15&ubigeo=90101&tarifario=Courrier
+app.use("/api/tarifario", selectionTarifarioRoutes);
 export default app;

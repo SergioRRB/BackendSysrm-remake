@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const ExportarTarifarioClienteCourrierService = {
   async courrierCliente(id_cliente: number, id_area: number) {
-    const tarifarioCourrier =
+    const expClienteCourrier =
       await prisma.tarifarios_clientes_courriers.findMany({
         where: {
           id_cliente_tarifario_cliente_courrier: id_cliente,
@@ -39,7 +39,7 @@ export const ExportarTarifarioClienteCourrierService = {
       });
 
     // Mapeo de resultados
-    return tarifarioCourrier.map((item) => ({
+    return expClienteCourrier.map((item) => ({
       Departamento: item.ubigeo?.DEPARTAMENTO,
       Provincia: item.ubigeo?.PROVINCIA,
       Distrito: item.ubigeo?.DESTINO,

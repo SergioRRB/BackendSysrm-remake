@@ -9,4 +9,9 @@ router.get(
   TarifaraTransportistaController.listTarifaTransportistaCarga,
 );
 
+router.get(
+  "/getCourrierTransportista/:id_transportista",
+  TarifaraTransportistaController.listTarifaTransportistaCourrier,
+);
+
 export default router;

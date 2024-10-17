@@ -12,12 +12,12 @@ export const exportarTarifaClienteCarga = async (
     const id_cliente = parseInt(req.params.id_cliente);
     const id_area = parseInt(req.params.id_area);
 
-    const exportarTarifarioCliente =
+    const expClienteCarga =
       await ExportarTarifarioClienteCargaService.cargaCliente(
         id_cliente,
         id_area,
       );
-    res.json(exportarTarifarioCliente);
+    res.json(expClienteCarga);
   } catch (error) {
     console.error("Error al exportar tarifarios de cliente carga:", error);
     return res.status(500).json({ message: "Error interno del servidor." });
@@ -32,12 +32,12 @@ export const exportarTarifaClienteValorizado = async (
     const id_cliente = parseInt(req.params.id_cliente);
     const id_area = parseInt(req.params.id_area);
 
-    const exportarTarifarioClienteValorizado =
+    const expClienteValorizado =
       await ExportarTarifarioClienteValorizadoService.valorizadoCliente(
         id_cliente,
         id_area,
       );
-    res.json(exportarTarifarioClienteValorizado);
+    res.json(expClienteValorizado);
   } catch (error) {
     console.error("Error al exportar tarifarios de cliente valorizado:", error);
     return res.status(500).json({ message: "Error interno del servidor." });
@@ -52,12 +52,12 @@ export const exportarTarifaClienteAereo = async (
     const id_cliente = parseInt(req.params.id_cliente);
     const id_area = parseInt(req.params.id_area);
 
-    const exportarTarifarioClienteAereo =
+    const expClienteAereo =
       await ExportarTarifarioClienteAereoService.aereoCliente(
         id_cliente,
         id_area,
       );
-    res.json(exportarTarifarioClienteAereo);
+    res.json(expClienteAereo);
   } catch (error) {
     console.error("Error al exportar tarifarios de cliente aereo:", error);
     return res.status(500).json({ message: "Error interno del servidor." });
@@ -72,12 +72,12 @@ export const exportarTarifaClienteCourrier = async (
     const id_cliente = parseInt(req.params.id_cliente);
     const id_area = parseInt(req.params.id_area);
 
-    const exportarTarifarioClienteCourrier =
+    const expClienteCourrier =
       await ExportarTarifarioClienteCourrierService.courrierCliente(
         id_cliente,
         id_area,
       );
-    res.json(exportarTarifarioClienteCourrier);
+    res.json(expClienteCourrier);
   } catch (error) {
     console.error("Error al exportar tarifarios de cliente courrier:", error);
     return res.status(500).json({ message: "Error interno del servidor." });

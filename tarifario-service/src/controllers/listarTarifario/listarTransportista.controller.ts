@@ -18,4 +18,19 @@ export const TarifaraTransportistaController = {
         .json({ error: "An error occurred while fetching data." });
     }
   },
+
+  async listTarifaTransportistaCourrier(req: Request, res: Response) {
+    const id_transportista = parseInt(req.params.id_transportista); // Cambiado a 'id_transportista'
+
+    try {
+      const tarifarioTransportistaCourrier =
+        await TarifarioTransportistaCargaService.carga(id_transportista);
+      return res.status(200).json(tarifarioTransportistaCourrier);
+    } catch (error) {
+      console.error("Error fetching transportista courriers:", error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while fetching data." });
+    }
+  },
 };

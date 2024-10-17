@@ -332,9 +332,10 @@ model proveedores {
   fecha_creado            DateTime @db.Date
   fecha_actualizado       DateTime @default(now()) @db.Timestamp(0)
 
-  tarifarios_agentes_aereos        tarifarios_agentes_aereos[]        @relation("ProveedorTarifario")
-  tarifarios_agentes_courriers     tarifarios_agentes_courriers[]     @relation("ProveedorTarifario") // Asegúrate de que el nombre sea el mismo
-  tarifarios_transportistas_cargas tarifarios_transportistas_cargas[] @relation("ProveedorTarifario")
+  tarifarios_agentes_aereos           tarifarios_agentes_aereos[]           @relation("ProveedorTarifario")
+  tarifarios_agentes_courriers        tarifarios_agentes_courriers[]        @relation("ProveedorTarifario") // Asegúrate de que el nombre sea el mismo
+  tarifarios_transportistas_cargas    tarifarios_transportistas_cargas[]    @relation("ProveedorTarifario")
+  tarifarios_transportistas_courriers tarifarios_transportistas_courriers[] @relation("ProveedorTarifario")
 }
 
 model provincias {
@@ -652,21 +653,36 @@ model tarifarios_transportistas_cargas {
   fecha_creado                                    DateTime    @db.Date
 }
 
+model tarifarios_transportistas_courriers {
+  id                                                Int         @id @default(autoincrement())
+  id_transportista_tarifario_transportista_courrier Int
+  proveedor                                         proveedores @relation("ProveedorTarifario", fields: [id_transportista_tarifario_transportista_courrier], references: [id], onDelete: Cascade)
+  ubigeo_tarifario_transportista_courrier           Int
+  ubigeo                                            ubigeo      @relation("UbigeoTarifario", fields: [ubigeo_tarifario_transportista_courrier], references: [UBIGEO], onDelete: Cascade)
+  kg_tarifario_transportista_courrier               Decimal     @db.Decimal(12, 1)
+  kg_adicional_tarifario_transportista_courrier     Decimal     @db.Decimal(12, 1)
+  tmin_tarifario_transportista_courrier             Int
+  tmax_tarifario_transportista_courrier             Int
+  id_creador_tarifario_transportista_courrier       Int?
+  fecha_creado                                      DateTime    @db.Date
+}
+
 model ubigeo {
-  UBIGEO       Int     @id // Adjust type as necessary
+  UBIGEO       Int    @id // Adjust type as necessary
   DEPARTAMENTO String @db.Text
   PROVINCIA    String @db.Text
   DESTINO      String @db.Text
   Zona         String @db.Text
   id           Int?
 
-  tarifarios_clientes_cargas       tarifarios_clientes_cargas[]
-  tarifarios_clientes_courriers    tarifarios_clientes_courriers[]
-  tarifarios_clientes_valorizados  tarifarios_clientes_valorizados[]
-  tarifarios_clientes_aereos       tarifarios_clientes_aereos[]
-  tarifarios_agentes_aereos        tarifarios_agentes_aereos[]        @relation("TarifariosUbigeo")
-  tarifarios_agentes_courriers     tarifarios_agentes_courriers[]     @relation("UbigeoTarifarios")
-  tarifarios_transportistas_cargas tarifarios_transportistas_cargas[] @relation("UbigeoTarifario")
+  tarifarios_clientes_cargas          tarifarios_clientes_cargas[]
+  tarifarios_clientes_courriers       tarifarios_clientes_courriers[]
+  tarifarios_clientes_valorizados     tarifarios_clientes_valorizados[]
+  tarifarios_clientes_aereos          tarifarios_clientes_aereos[]
+  tarifarios_agentes_aereos           tarifarios_agentes_aereos[]           @relation("TarifariosUbigeo")
+  tarifarios_agentes_courriers        tarifarios_agentes_courriers[]        @relation("UbigeoTarifarios")
+  tarifarios_transportistas_cargas    tarifarios_transportistas_cargas[]    @relation("UbigeoTarifario")
+  tarifarios_transportistas_courriers tarifarios_transportistas_courriers[] @relation("UbigeoTarifario")
 }
 
 model usuarios {

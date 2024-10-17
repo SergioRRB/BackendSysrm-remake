@@ -10,12 +10,12 @@ export const listTarifaClienteAereo = async (req: Request, res: Response) => {
     const id_cliente = parseInt(req.params.id_cliente);
     const id_area = parseInt(req.params.id_area);
     // Llamar al servicio para obtener los datos
-    const tarifarioCliente = await TarifarioClienteAereoService.aereo(
+    const tarifarioClienteAereo = await TarifarioClienteAereoService.aereo(
       id_cliente,
       id_area,
     );
     // Devolver los datos en la respuesta
-    res.json(tarifarioCliente);
+    res.json(tarifarioClienteAereo);
   } catch (error) {
     console.error("Error al obtener el tarifario cliente aéreo:", error);
     res.status(500).json({ error: "Error interno del servidor" });

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const ExportarTarifarioClienteAereoService = {
   async aereoCliente(id_cliente: number, id_area: number) {
-    const tarifarioAereo = await prisma.tarifarios_clientes_aereos.findMany({
+    const expClienteAereo = await prisma.tarifarios_clientes_aereos.findMany({
       where: {
         id_cliente_tarifario_cliente_aereo: id_cliente,
         id_area_tarifario_cliente_aereo: id_area,
@@ -37,7 +37,7 @@ export const ExportarTarifarioClienteAereoService = {
       },
     });
 
-    return tarifarioAereo.map((item) => ({
+    return expClienteAereo.map((item) => ({
       Departamento: item.ubigeo?.DEPARTAMENTO,
       Provincia: item.ubigeo?.PROVINCIA,
       Distrito: item.ubigeo?.DESTINO,

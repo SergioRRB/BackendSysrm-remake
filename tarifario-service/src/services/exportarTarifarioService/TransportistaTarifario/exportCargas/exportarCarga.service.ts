@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const ExportarTarifarioTransportistaService = {
+export const ExportarTarifarioTransportistaCargaService = {
   async transportistaCarga(id_transportista: number) {
-    const tarifarioTransportista =
+    const expTransportistaCarga =
       await prisma.tarifarios_transportistas_cargas.findMany({
         where: {
           id_transportista_tarifario_transportista_carga: id_transportista,
@@ -34,7 +34,7 @@ export const ExportarTarifarioTransportistaService = {
       });
 
     // Mapeo de resultados
-    return tarifarioTransportista.map((item) => ({
+    return expTransportistaCarga.map((item) => ({
       Departamento: item.ubigeo?.DEPARTAMENTO,
       Provincia: item.ubigeo?.PROVINCIA,
       Distrito: item.ubigeo?.DESTINO,
