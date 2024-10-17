@@ -654,10 +654,10 @@ model tarifarios_transportistas_cargas {
 
 model ubigeo {
   UBIGEO       Int     @id // Adjust type as necessary
-  DEPARTAMENTO String? @db.Text
-  PROVINCIA    String? @db.Text
-  DESTINO      String? @db.Text
-  Zona         String? @db.Text
+  DEPARTAMENTO String @db.Text
+  PROVINCIA    String @db.Text
+  DESTINO      String @db.Text
+  Zona         String @db.Text
   id           Int?
 
   tarifarios_clientes_cargas       tarifarios_clientes_cargas[]
