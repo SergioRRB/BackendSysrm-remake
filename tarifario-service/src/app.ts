@@ -8,6 +8,7 @@ import listarTransportistasRoutes from "./routes/listarTarifarioRoutes/listarTra
 import exportarAgentesRoutes from "./routes/exportarTarifarioRoutes/exportarAgentes.routes";
 import exportarClientesRoutes from "./routes/exportarTarifarioRoutes/exportarClientes.routes";
 import exportarTransportistasRoutes from "./routes/exportarTarifarioRoutes/exportarTransportistas.routes";
+import exportarUbigeoRoutes from "./routes/exportarUbigeo/exportarUbigeo.routes";
 
 const app = express();
 app.use(cors());
@@ -26,4 +27,8 @@ app.use("/api/tarifario", exportarTransportistasRoutes);
 // Selection Routes
 // http://localhost:3001/api/tarifario/selectionTarifarioCliente?id_cliente=34&id_area=15&ubigeo=90101&tarifario=Courrier
 app.use("/api/tarifario", selectionTarifarioRoutes);
+
+// Ubigeo Export...
+app.use("/api/tarifario", exportarUbigeoRoutes);
+
 export default app;
