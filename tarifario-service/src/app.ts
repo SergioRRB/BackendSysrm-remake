@@ -8,7 +8,7 @@ import listarTransportistasRoutes from "./routes/listarTarifarioRoutes/listarTra
 import exportarAgentesRoutes from "./routes/exportarTarifarioRoutes/exportarAgentes.routes";
 import exportarClientesRoutes from "./routes/exportarTarifarioRoutes/exportarClientes.routes";
 import exportarTransportistasRoutes from "./routes/exportarTarifarioRoutes/exportarTransportistas.routes";
-import exportarUbigeoRoutes from "./routes/exportarUbigeo/exportarUbigeo.routes";
+import exportarUbigeoRoutes from "./routes/exportarUbigeoRoutes/exportarUbigeo.routes";
 
 const app = express();
 app.use(cors());
