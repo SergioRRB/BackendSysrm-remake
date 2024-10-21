@@ -2,7 +2,6 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { Request, Response, NextFunction } from "express";
 import { plainToClass } from "class-transformer";
-import { AgenteDto } from "../dtos/importarTarifarioDto/importarAgente.dto";
 
 export const validateDtoCliente = (dtoClass: any) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -27,22 +26,3 @@ export const validateDtoCliente = (dtoClass: any) => {
     next();
   };
 };
-
-export function validateAgente(req: Request, res: Response, next: NextFunction) {
-  const dataAereo: AgenteDto[] = req.body;
-
-  // Validaciones básicas
-  for (const element of dataAereo) {
-    if (
-      !element.kg_tarifario_agente_aereo ||
-      !element.kg_adicional_tarifario_agente_aereo ||
-      !element.tmin_tarifario_agente_aereo ||
-      !element.tmax_tarifario_agente_aereo ||
-      !element.ubigeo_tarifario_agente_aereo
-    ) {
-      return res.status(400).json({ message: 'Datos incompletos o inválidos' });
-    }
-  }
-
-  next();
-}

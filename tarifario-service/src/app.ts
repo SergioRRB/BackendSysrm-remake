@@ -10,6 +10,8 @@ import exportarClientesRoutes from "./routes/exportarTarifarioRoutes/exportarCli
 import exportarTransportistasRoutes from "./routes/exportarTarifarioRoutes/exportarTransportistas.routes";
 import exportarUbigeoRoutes from "./routes/exportarUbigeoRoutes/exportarUbigeo.routes";
 import importarAgenteRoutes from "./routes/importarTarifarioRoutes/importarAgente.routes";
+import importarClienteRoutes from "./routes/importarTarifarioRoutes/importarCliente.routes";
+import importarTransportistaRoutes from "./routes/importarTarifarioRoutes/importarTransportista.routes";
 
 
 const app = express();
@@ -35,5 +37,7 @@ app.use("/api/tarifario", exportarUbigeoRoutes);
 
 // Import Routes    
 app.use('/api/tarifario/import', importarAgenteRoutes);
+app.use('/api/tarifario/import', importarClienteRoutes);
+app.use('/api/tarifario/import', importarTransportistaRoutes);
 
 export default app;

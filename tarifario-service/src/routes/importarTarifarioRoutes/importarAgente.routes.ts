@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import { validateAgente } from '../../middlewares/validate';
-import { ImportarAgenteController } from '../../controllers/importarTarifario/importarAgente.controller';
+import { validateAgenteAereo, validateAgenteCourrier } from '../../middlewares/ValidateAgente/importValidate';
+import { ImportarAgenteAereroController, ImportartAgenteCourrierController } from '../../controllers/importarTarifario/importarAgente.controller';
 
 const router = Router();
-const importatAgenteController = new ImportarAgenteController();
+const importatAgenteController = new ImportarAgenteAereroController();
+const importartAgenteCourrierController = new ImportartAgenteCourrierController();
 
-router.post('/tarifarioAereo', validateAgente, importatAgenteController.insertTarifarioAgenteAereo);
+
+router.post('/upload/AgenteAereo', validateAgenteAereo, importatAgenteController.insertTarifarioAgenteAereo);
+router.post('/upload/AgenteCourrier', validateAgenteCourrier, importartAgenteCourrierController.insertTarifarioAgenteCourrier);
 
 export default router;

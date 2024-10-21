@@ -1,12 +1,12 @@
 // src/services/clienteService.ts
 
 import { PrismaClient } from '@prisma/client';
-import { AgenteDto} from '../../../../dtos/importarTarifarioDto/importarAgente.dto';
+import { AgenteAereoDto} from '../../../../dtos/importarTarifarioDto/importarAgente.dto';
 
 const prisma = new PrismaClient();
 
-export class ImportarAgenteService {
-  async insertAereo(dataAereo: AgenteDto[], idArea: number, idUser: number) {
+export class ImportarAgenteAereoService {
+  async insertAgenteAereo(data_AgenteAereo: AgenteAereoDto[], idArea: number, idUser: number) {
     // Eliminar la tabla existente
     await prisma.tarifarios_agentes_aereos.deleteMany({
       where: { id_agente_tarifario_agente_aereo: idArea },
@@ -22,7 +22,7 @@ export class ImportarAgenteService {
     const ubigeos = await prisma.ubigeo.findMany();
 
     // Insertar los nuevos registros
-    for (const element of dataAereo) {
+    for (const element of data_AgenteAereo) {
       const newTarifa = {
         id_agente_tarifario_agente_aereo: area.id,
         ubigeo_tarifario_agente_aereo: element.ubigeo_tarifario_agente_aereo,
