@@ -9,6 +9,8 @@ import exportarAgentesRoutes from "./routes/exportarTarifarioRoutes/exportarAgen
 import exportarClientesRoutes from "./routes/exportarTarifarioRoutes/exportarClientes.routes";
 import exportarTransportistasRoutes from "./routes/exportarTarifarioRoutes/exportarTransportistas.routes";
 import exportarUbigeoRoutes from "./routes/exportarUbigeoRoutes/exportarUbigeo.routes";
+import importarAgenteRoutes from "./routes/importarTarifarioRoutes/importarAgente.routes";
+
 
 const app = express();
 app.use(cors());
@@ -30,5 +32,8 @@ app.use("/api/tarifario", selectionTarifarioRoutes);
 
 // Ubigeo Export...
 app.use("/api/tarifario", exportarUbigeoRoutes);
+
+// Import Routes    
+app.use('/api/tarifario/import', importarAgenteRoutes);
 
 export default app;
