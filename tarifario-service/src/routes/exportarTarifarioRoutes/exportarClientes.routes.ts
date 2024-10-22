@@ -9,6 +9,11 @@ import {
 } from "../../controllers/exportarTarifario/exportarCliente.controller";
 
 const router = Router();
+router.get(
+  "/exportarClienteAereo/:id_cliente/:id_area",
+  validateDtoCliente(ExportarClienteDto),
+  exportarTarifaClienteAereo,
+);
 
 router.get(
   "/exportarClienteCarga/:id_cliente/:id_area",
@@ -17,21 +22,15 @@ router.get(
 );
 
 router.get(
-  "/exportarClienteValorizado/:id_cliente/:id_area",
-  validateDtoCliente(ExportarClienteDto),
-  exportarTarifaClienteValorizado,
-);
-
-router.get(
-  "/exportarClienteAereo/:id_cliente/:id_area",
-  validateDtoCliente(ExportarClienteDto),
-  exportarTarifaClienteAereo,
-);
-
-router.get(
   "/exportarClienteCourrier/:id_cliente/:id_area",
   validateDtoCliente(ExportarClienteDto),
   exportarTarifaClienteCourrier,
+);
+
+router.get(
+  "/exportarClienteValorizado/:id_cliente/:id_area",
+  validateDtoCliente(ExportarClienteDto),
+  exportarTarifaClienteValorizado,
 );
 
 export default router;

@@ -24,14 +24,12 @@ export const ExportarTarifarioClienteValorizadoService = {
           },
           area: {
             select: {
-              id: true, // Cambia esto según lo que necesites
-              // Puedes agregar otros campos que quieras seleccionar
+              id: true, 
             },
           },
           cliente: {
             select: {
-              id: true, // Cambia esto según lo que necesites
-              // Puedes agregar otros campos que quieras seleccionar
+              id: true, 
             },
           },
         },

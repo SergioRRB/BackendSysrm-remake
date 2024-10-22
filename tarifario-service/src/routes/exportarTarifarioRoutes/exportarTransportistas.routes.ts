@@ -13,7 +13,7 @@ router.get(
 
 router.get(
   "/exportarTransportistaCourrier/:id_transportista",
-  ExportarTarifarioTransportistaCourrierController.exportarTransportistaCarga,
+  ExportarTarifarioTransportistaCourrierController.exportarTransportistaCourrier,
 );
 
 export default router;

@@ -28,7 +28,7 @@ export const ExportarTarifarioTransportistaCargaController = {
 };
 
 export const ExportarTarifarioTransportistaCourrierController = {
-  async exportarTransportistaCarga(req: Request, res: Response) {
+  async exportarTransportistaCourrier(req: Request, res: Response) {
     const { id_transportista } = req.params; // Suponiendo que el ID se pasa como parámetro en la URL
 
     try {

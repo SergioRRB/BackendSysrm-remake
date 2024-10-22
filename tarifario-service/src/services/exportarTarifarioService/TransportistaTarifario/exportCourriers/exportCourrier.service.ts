@@ -24,13 +24,12 @@ export const ExportarTarifarioTransportistaCourrierService = {
           },
           proveedor: {
             select: {
-              id: true, // Cambia esto según lo que necesites
-              // Puedes agregar otros campos que quieras seleccionar
+              id: true,
             },
           },
         },
         orderBy: {
-          id: "desc", // Ordenamos por ID descendente
+          id: "desc",        
         },
       });
 
