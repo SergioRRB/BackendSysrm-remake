@@ -1,4 +1,3 @@
-// src/dtos/listarTarifarioDto/selectionCliente.dto.ts
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class SelectionClienteDto {

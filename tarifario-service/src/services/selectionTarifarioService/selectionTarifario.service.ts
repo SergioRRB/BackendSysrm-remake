@@ -1,4 +1,3 @@
-// src/services/selectionTarifarioService/selectionTarifario.service.ts
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -49,9 +48,7 @@ export class SelectionTarifarioService {
           id_cliente_tarifario_cliente_carga: id_cliente,
           id_area_tarifario_cliente_carga: id_area,
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: {id: "desc",},
         select: {
           tmin_tarifario_cliente_carga: true,
           tmax_tarifario_cliente_carga: true,
@@ -64,9 +61,7 @@ export class SelectionTarifarioService {
           id_cliente_tarifario_cliente_valorizado: id_cliente,
           id_area_tarifario_cliente_valorizado: id_area,
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: {id: "desc",},
         select: {
           producto_tarifario_cliente_valorizado: true,
           tmin_tarifario_cliente_valorizado: true,
@@ -74,7 +69,6 @@ export class SelectionTarifarioService {
         },
       });
     }
-
     return result;
   }
 }

@@ -1,4 +1,3 @@
-// src/routes/selectionTarifarioRoutes/selectionTarifario.routes.ts
 import { Router } from "express";
 import { SelectionTarifarioController } from "../../controllers/selectionTarifario/selectionTarifario.controller";
 
