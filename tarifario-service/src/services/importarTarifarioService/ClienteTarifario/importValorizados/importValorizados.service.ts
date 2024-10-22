@@ -5,11 +5,7 @@ const prisma = new PrismaClient();
 
 export class ImportarClienteValorizadoService {
   async insertClientesValorizados(
-    data_ClientesValorizados: ClienteValorizadoDto[],
-    idCliente: number,
-    idArea: number,
-    idUser: number,
-  ) {
+    data_ClientesValorizados: ClienteValorizadoDto[], idCliente: number, idArea: number, idUser: number) {
     // Eliminar los datos existentes
     await prisma.tarifarios_clientes_valorizados.deleteMany({
       where: { id_cliente_tarifario_cliente_valorizado: idCliente },

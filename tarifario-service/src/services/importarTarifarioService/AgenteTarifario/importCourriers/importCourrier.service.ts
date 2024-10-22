@@ -1,5 +1,3 @@
-// src/services/courrierService.ts
-
 import { PrismaClient } from '@prisma/client';
 import { AgenteCourrierDto } from '../../../../dtos/importarTarifarioDto/importarAgente.dto';
 

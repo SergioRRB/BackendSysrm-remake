@@ -1,5 +1,3 @@
-// src/controllers/exportarUbigeo/exportarUbigeoController.ts
-
 import { Request, Response } from "express";
 import { exportarUbigeo } from "../../services/exportarUbigeo/exportUbigeo.service";
 
