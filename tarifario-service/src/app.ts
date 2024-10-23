@@ -3,8 +3,8 @@ import express from "express";
 import cors from "cors";
 import listarClientesRoutes from "./routes/listarTarifarioRoutes/listarClientes.routes";
 import selectionTarifarioRoutes from "./routes/selectionTarifarioRoutes/selectionTarifario.routes";
-import listarAgentesRoutes from "./routes/listarTarifarioRoutes/listarAgentes.routes"; // Importar rutas de agentes
-import listarTransportistasRoutes from "./routes/listarTarifarioRoutes/listarTransportistas.routes"; // Importar rutas de transportistas
+import listarAgentesRoutes from "./routes/listarTarifarioRoutes/listarAgentes.routes"; 
+import listarTransportistasRoutes from "./routes/listarTarifarioRoutes/listarTransportistas.routes"; 
 import exportarAgentesRoutes from "./routes/exportarTarifarioRoutes/exportarAgentes.routes";
 import exportarClientesRoutes from "./routes/exportarTarifarioRoutes/exportarClientes.routes";
 import exportarTransportistasRoutes from "./routes/exportarTarifarioRoutes/exportarTransportistas.routes";
