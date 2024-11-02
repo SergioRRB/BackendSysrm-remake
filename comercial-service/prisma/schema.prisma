@@ -61,7 +61,6 @@ model clientes {
   fecha_creado                DateTime       @db.Date
   fecha_actualizado           DateTime       @default(now()) @db.Timestamp(0)
   cotizaciones                cotizaciones[]
-  punto_ventas                punto_ventas[]
 }
 
 model cotizaciones {
@@ -81,56 +80,57 @@ model cotizaciones {
   fecha_actualizado            DateTime                @default(now()) @db.Timestamp(0)
   area                         areas?                  @relation(fields: [id_area_cotizacion], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cotizaciones_areas")
   cliente                      clientes?               @relation(fields: [id_cliente_cotizacion], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cotizaciones_clientes")
-  cotizacionesDestinos         cotizaciones_destinos[]
-  validaciones                 validaciones[]
+  validaciones                 validaciones[]          @relation("ValidacionCotizaciones")
+  cotizaciones_destinos        cotizaciones_destinos[]
 
   @@index([id_area_cotizacion], map: "fk_cotizaciones_areas")
   @@index([id_cliente_cotizacion], map: "fk_cotizaciones_clientes")
 }
 
 model cotizaciones_destinos {
-  id                                      Int            @id @default(autoincrement())
-  id_cotizacion_cotizacion_destino        String         @db.Char(11)
+  id                                      Int           @id @default(autoincrement())
+  id_cotizacion_cotizacion_destino        String        @db.Char(11)
   id_cliente_cotizacion_destino           Int
   id_area_cotizacion_destino              Int
-  consignado_cotizacion_destino           String         @db.VarChar(250)
-  dni_ruc_cotizacion_destino              String         @db.Char(11)
-  telefono_cotizacion_destino             String         @db.Char(9)
-  telefono_exc_cotizacion_destino         String         @db.Char(9)
-  direccion_cotizacion_destino            String         @db.VarChar(250)
-  referencias_cotizacion_destino          String         @db.VarChar(250)
-  tarifario_cotizacion_destino            String         @db.VarChar(15)
-  ubigeo_cotizacion_destino               String         @db.Char(11)
+  consignado_cotizacion_destino           String        @db.VarChar(250)
+  dni_ruc_cotizacion_destino              String        @db.Char(11)
+  telefono_cotizacion_destino             String        @db.Char(9)
+  telefono_exc_cotizacion_destino         String        @db.Char(9)
+  direccion_cotizacion_destino            String        @db.VarChar(250)
+  referencias_cotizacion_destino          String        @db.VarChar(250)
+  tarifario_cotizacion_destino            String        @db.VarChar(15)
+  ubigeo_cotizacion_destino               String        @db.Char(11)
   tmin_entrega_cotizacion_destino         Int
   tmax_entrega_cotizacion_destino         Int
-  tipo_envio_cotizacion_destino           String         @db.VarChar(15)
-  contenido_mercancia_cotizacion_destino  String         @db.VarChar(250)
+  tipo_envio_cotizacion_destino           String        @db.VarChar(15)
+  contenido_mercancia_cotizacion_destino  String        @db.VarChar(250)
   peso_mercancia_cotizacion_destino       Int
-  total_metros_cubicos_cotizacion_destino Decimal        @db.Decimal(12, 1)
-  total_tarifa_cotizacion_destino         Decimal        @db.Decimal(12, 1)
-  tipo_logistica_cotizacion_destino       String         @db.VarChar(15)
+  total_metros_cubicos_cotizacion_destino Decimal       @db.Decimal(12, 1)
+  total_tarifa_cotizacion_destino         Decimal       @db.Decimal(12, 1)
+  tipo_logistica_cotizacion_destino       String        @db.VarChar(15)
   cantidad_mercancia_cotizacion_destino   Int
-  largo_cotizacion_destino                Decimal        @db.Decimal(12, 1)
-  ancho_cotizacion_destino                Decimal        @db.Decimal(12, 1)
-  alto_cotizacion_destino                 Decimal        @db.Decimal(12, 1)
-  total_peso_volumen_cotizacion_destino   Decimal        @db.Decimal(12, 1)
-  valor_mercancia_cotizacion_destino      Decimal        @db.Decimal(12, 1)
-  packing_cotizacion_destino              Decimal        @db.Decimal(12, 1)
-  seguro_cotizacion_destino               Decimal        @db.Decimal(12, 1)
-  monta_carga_cotizacion_destino          Decimal        @db.Decimal(12, 1)
-  total_adicional_cotizacion_destino      Decimal        @db.Decimal(12, 1)
-  retorno_cotizacion_destino              Decimal        @db.Decimal(12, 1)
-  estiba_desestiba_cotizacion_destino     Decimal        @db.Decimal(12, 1)
-  transporte_extra_cotizacion_destino     Decimal        @db.Decimal(12, 1)
-  guia_transportista_cotizacion_destino   String?        @db.Char(11)
-  guia_remision_cotizacion_destino        String?        @db.Char(11)
-  documento_1_cotizacion_destino          String?        @db.Char(11)
-  documento_2_cotizacion_destino          String?        @db.Char(11)
+  largo_cotizacion_destino                Decimal       @db.Decimal(12, 1)
+  ancho_cotizacion_destino                Decimal       @db.Decimal(12, 1)
+  alto_cotizacion_destino                 Decimal       @db.Decimal(12, 1)
+  total_peso_volumen_cotizacion_destino   Decimal       @db.Decimal(12, 1)
+  valor_mercancia_cotizacion_destino      Decimal       @db.Decimal(12, 1)
+  packing_cotizacion_destino              Decimal       @db.Decimal(12, 1)
+  seguro_cotizacion_destino               Decimal       @db.Decimal(12, 1)
+  monta_carga_cotizacion_destino          Decimal       @db.Decimal(12, 1)
+  total_adicional_cotizacion_destino      Decimal       @db.Decimal(12, 1)
+  retorno_cotizacion_destino              Decimal       @db.Decimal(12, 1)
+  estiba_desestiba_cotizacion_destino     Decimal       @db.Decimal(12, 1)
+  transporte_extra_cotizacion_destino     Decimal       @db.Decimal(12, 1)
+  guia_transportista_cotizacion_destino   String?       @db.Char(11)
+  guia_remision_cotizacion_destino        String?       @db.Char(11)
+  documento_1_cotizacion_destino          String?       @db.Char(11)
+  documento_2_cotizacion_destino          String?       @db.Char(11)
   id_creador_cotizacion_destino           Int
-  estado                                  String         @default("1") @db.Char(1)
-  fecha_creado                            DateTime?      @db.Date
-  fecha_actualizado                       DateTime       @default(now()) @db.Timestamp(0)
-  cotizacion                              cotizaciones[]
+  estado                                  String        @default("1") @db.Char(1)
+  fecha_creado                            DateTime?     @db.Date
+  fecha_actualizado                       DateTime      @default(now()) @db.Timestamp(0)
+  cotizaciones                            cotizaciones? @relation(fields: [cotizacionesId], references: [id])
+  cotizacionesId                          Int?
 }
 
 model departamentos {
@@ -337,68 +337,64 @@ model provincias {
 }
 
 model punto_ventas {
-  id                            Int                     @id @default(autoincrement())
-  id_punto_venta                String                  @db.Char(11)
+  id                            Int       @id @default(autoincrement())
+  id_punto_venta                String    @db.Char(11)
   id_cliente_punto_venta        Int
   id_area_punto_venta           Int
   cantidad_destinos_punto_venta Int
-  recibo_punto_venta            String                  @db.Char(11)
-  sub_total_punto_venta         Decimal                 @db.Decimal(12, 1)
-  igv_punto_venta               Decimal                 @db.Decimal(12, 1)
-  precio_total_punto_venta      Decimal                 @db.Decimal(12, 1)
-  validacion_punto_venta        String?                 @default("0") @db.Char(1)
+  recibo_punto_venta            String    @db.Char(11)
+  sub_total_punto_venta         Decimal   @db.Decimal(12, 1)
+  igv_punto_venta               Decimal   @db.Decimal(12, 1)
+  precio_total_punto_venta      Decimal   @db.Decimal(12, 1)
+  validacion_punto_venta        String?   @default("0") @db.Char(1)
   id_creador_punto_venta        Int
-  estado                        String                  @default("1") @db.Char(1)
-  fecha_creado                  DateTime?               @db.Date
-  fecha_actualizado             DateTime                @default(now()) @db.Timestamp(0)
-  cliente                       clientes                @relation(fields: [id_cliente_punto_venta], references: [id])
-  puntoVentasDestinos           punto_ventas_destinos[]
-  validaciones                  validaciones[]
+  estado                        String    @default("1") @db.Char(1)
+  fecha_creado                  DateTime? @db.Date
+  fecha_actualizado             DateTime  @default(now()) @db.Timestamp(0)
 }
 
 model punto_ventas_destinos {
-  id                                       Int            @id @default(autoincrement())
-  id_punto_venta_destino                   String         @db.Char(11)
+  id                                       Int       @id @default(autoincrement())
+  id_punto_venta_destino                   String    @db.Char(11)
   id_cliente_punto_venta_destino           Int
   id_area_punto_venta_destino              Int
-  consignado_punto_venta_destino           String         @db.VarChar(250)
-  dni_ruc_punto_venta_destino              String         @db.Char(11)
-  telefono_punto_venta_destino             String         @db.Char(9)
-  telefono_exc_punto_venta_destino         String         @db.Char(9)
-  direccion_punto_venta_destino            String         @db.VarChar(250)
-  referencias_punto_venta_destino          String         @db.VarChar(250)
-  tarifario_punto_venta_destino            String         @db.VarChar(15)
-  ubigeo_punto_venta_destino               String         @db.Char(11)
+  consignado_punto_venta_destino           String    @db.VarChar(250)
+  dni_ruc_punto_venta_destino              String    @db.Char(11)
+  telefono_punto_venta_destino             String    @db.Char(9)
+  telefono_exc_punto_venta_destino         String    @db.Char(9)
+  direccion_punto_venta_destino            String    @db.VarChar(250)
+  referencias_punto_venta_destino          String    @db.VarChar(250)
+  tarifario_punto_venta_destino            String    @db.VarChar(15)
+  ubigeo_punto_venta_destino               String    @db.Char(11)
   tmin_entrega_punto_venta_destino         Int
   tmax_entrega_punto_venta_destino         Int
-  tipo_envio_punto_venta_destino           String         @db.VarChar(15)
-  contenido_mercancia_punto_venta_destino  String         @db.VarChar(250)
+  tipo_envio_punto_venta_destino           String    @db.VarChar(15)
+  contenido_mercancia_punto_venta_destino  String    @db.VarChar(250)
   peso_mercancia_punto_venta_destino       Int
-  total_metros_cubicos_punto_venta_destino Decimal        @db.Decimal(12, 1)
-  total_tarifa_punto_venta_destino         Decimal        @db.Decimal(12, 1)
-  tipo_logistica_punto_venta_destino       String         @db.VarChar(15)
+  total_metros_cubicos_punto_venta_destino Decimal   @db.Decimal(12, 1)
+  total_tarifa_punto_venta_destino         Decimal   @db.Decimal(12, 1)
+  tipo_logistica_punto_venta_destino       String    @db.VarChar(15)
   cantidad_mercancia_punto_venta_destino   Int
-  largo_punto_venta_destino                Decimal        @db.Decimal(12, 1)
-  ancho_punto_venta_destino                Decimal        @db.Decimal(12, 1)
-  alto_punto_venta_destino                 Decimal        @db.Decimal(12, 1)
-  total_peso_volumen_punto_venta_destino   Decimal        @db.Decimal(12, 1)
-  valor_mercancia_punto_venta_destino      Decimal        @db.Decimal(12, 1)
-  packing_punto_venta_destino              Decimal        @db.Decimal(12, 1)
-  seguro_punto_venta_destino               Decimal        @db.Decimal(12, 1)
-  monta_carga_punto_venta_destino          Decimal        @db.Decimal(12, 1)
-  total_adicional_punto_venta_destino      Decimal        @db.Decimal(12, 1)
-  retorno_punto_venta_destino              Decimal        @db.Decimal(12, 1)
-  estiba_desestiba_punto_venta_destino     Decimal        @db.Decimal(12, 1)
-  transporte_extra_punto_venta_destino     Decimal        @db.Decimal(12, 1)
-  guia_transportista_punto_venta_destino   String?        @db.Char(11)
-  guia_remision_punto_venta_destino        String?        @db.Char(11)
-  documento_1_punto_venta_destino          String?        @db.Char(11)
-  documento_2_punto_venta_destino          String?        @db.Char(11)
+  largo_punto_venta_destino                Decimal   @db.Decimal(12, 1)
+  ancho_punto_venta_destino                Decimal   @db.Decimal(12, 1)
+  alto_punto_venta_destino                 Decimal   @db.Decimal(12, 1)
+  total_peso_volumen_punto_venta_destino   Decimal   @db.Decimal(12, 1)
+  valor_mercancia_punto_venta_destino      Decimal   @db.Decimal(12, 1)
+  packing_punto_venta_destino              Decimal   @db.Decimal(12, 1)
+  seguro_punto_venta_destino               Decimal   @db.Decimal(12, 1)
+  monta_carga_punto_venta_destino          Decimal   @db.Decimal(12, 1)
+  total_adicional_punto_venta_destino      Decimal   @db.Decimal(12, 1)
+  retorno_punto_venta_destino              Decimal   @db.Decimal(12, 1)
+  estiba_desestiba_punto_venta_destino     Decimal   @db.Decimal(12, 1)
+  transporte_extra_punto_venta_destino     Decimal   @db.Decimal(12, 1)
+  guia_transportista_punto_venta_destino   String?   @db.Char(11)
+  guia_remision_punto_venta_destino        String?   @db.Char(11)
+  documento_1_punto_venta_destino          String?   @db.Char(11)
+  documento_2_punto_venta_destino          String?   @db.Char(11)
   id_creador_punto_venta_destino           Int
-  estado                                   String         @default("1") @db.Char(1)
-  fecha_creado                             DateTime?      @db.Date
-  fecha_actualizado                        DateTime       @default(now()) @db.Timestamp(0)
-  punto_ventas                             punto_ventas[]
+  estado                                   String    @default("1") @db.Char(1)
+  fecha_creado                             DateTime? @db.Date
+  fecha_actualizado                        DateTime  @default(now()) @db.Timestamp(0)
 }
 
 model registro_envio_destinos {
@@ -679,8 +675,7 @@ model validaciones {
   fecha_creado                 DateTime       @db.Date
   fecha_actualizado            DateTime       @default(now()) @db.Timestamp(0)
   usuarios                     usuarios?      @relation(fields: [id_accion_validacion], references: [id])
-  cotizaciones                 cotizaciones[]
-  puntoVentas                  punto_ventas[]
+  cotizaciones                 cotizaciones[] @relation("ValidacionCotizaciones")
 }
 
 model vehiculos {

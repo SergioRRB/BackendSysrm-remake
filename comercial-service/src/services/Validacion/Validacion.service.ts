@@ -1,102 +1,48 @@
+// src/services/Validacion/Validaciones.service.ts
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-class ValidacionService {
-  async getValidaciones() {
-    const validaciones = await prisma.validaciones.findMany({
-      where: {
-        id_orden_servicio_validacion: {
-          not: {
-            startsWith: "OS",
-          },
-        },
-      },
-      include: {
-        usuarios: {
-          select: {
-            colaborador_usuario: true,
-          },
-        },
-        cotizaciones: {
-          include: {
-            cliente: {
-              select: { razon_social_cliente: true },
-            },
-            cotizacionesDestinos: true,
-          },
-        },
-        puntoVentas: {
-          include: {
-            cliente: {
-              select: { razon_social_cliente: true },
-            },
-            puntoVentasDestinos: true,
-          },
-        },
-      },
-    });
+export class ValidacionesService {
+  static async obtenerDetallesValidaciones() {
+    const query = `
+      SELECT
+        validaciones.id,
+        validaciones.fecha_creado,
+        usuarios.colaborador_usuario,
+        validaciones.id_orden_servicio_validacion,
+        clientes.razon_social_cliente,
+        SUM(COALESCE(cotizaciones_destinos.cantidad_mercancia_cotizacion_destino, 0) + COALESCE(punto_ventas_destinos.cantidad_mercancia_punto_venta_destino, 0)) AS total_bultos,
+        COALESCE(cotizaciones.cantidad_destinos_cotizacion, 0) + COALESCE(punto_ventas.cantidad_destinos_punto_venta, 0) AS cantidad_destinos_cotizacion,
+        SUM(COALESCE(cotizaciones_destinos.total_tarifa_cotizacion_destino, 0) + COALESCE(punto_ventas_destinos.total_tarifa_punto_venta_destino, 0)) AS total_costo_envio,
+        SUM(COALESCE(cotizaciones_destinos.total_adicional_cotizacion_destino, 0) + COALESCE(punto_ventas_destinos.total_adicional_punto_venta_destino, 0)) AS total_costo_adicional,
+        CASE
+          WHEN cotizaciones.recibo_cotizacion IS NOT NULL AND punto_ventas.recibo_punto_venta IS NOT NULL THEN CONCAT(cotizaciones.recibo_cotizacion, ', ', punto_ventas.recibo_punto_venta)
+          WHEN cotizaciones.recibo_cotizacion IS NOT NULL THEN cotizaciones.recibo_cotizacion
+          WHEN punto_ventas.recibo_punto_venta IS NOT NULL THEN punto_ventas.recibo_punto_venta
+          ELSE NULL
+        END AS recibo_cotizacion,
+        COALESCE(cotizaciones.precio_total_cotizacion, 0) + COALESCE(punto_ventas.precio_total_punto_venta, 0) AS precio_total_cotizacion,
+        validaciones.estado_validacion
+      FROM validaciones
+      LEFT JOIN cotizaciones ON validaciones.id_orden_servicio_validacion = cotizaciones.id_cotizacion
+      LEFT JOIN cotizaciones_destinos ON cotizaciones.id_cotizacion = cotizaciones_destinos.id_cotizacion_cotizacion_destino
+      LEFT JOIN punto_ventas ON validaciones.id_orden_servicio_validacion = punto_ventas.id_punto_venta
+      LEFT JOIN punto_ventas_destinos ON punto_ventas.id_punto_venta = punto_ventas_destinos.id_punto_venta_destino
+      LEFT JOIN usuarios ON validaciones.id_accion_validacion = usuarios.id
+      LEFT JOIN clientes ON (cotizaciones.id_cliente_cotizacion = clientes.id OR punto_ventas.id_cliente_punto_venta = clientes.id)
+      WHERE id_orden_servicio_validacion NOT LIKE 'OS%'
+      GROUP BY
+        validaciones.id_orden_servicio_validacion,
+        clientes.razon_social_cliente,
+        usuarios.colaborador_usuario,
+        cantidad_destinos_cotizacion,
+        recibo_cotizacion,
+        precio_total_cotizacion
+      ORDER BY validaciones.id DESC
+    `;
 
-    return validaciones.map((validacion) => {
-      const totalBultos = validacion.cotizaciones.reduce((sum, cot) => {
-        return (
-          sum +
-          cot.cotizacionesDestinos.reduce(
-            (subSum, dest) =>
-              subSum + dest.cantidad_mercancia_cotizacion_destino,
-            0,
-          )
-        );
-      }, 0);
-
-      const totalCostoEnvio = validacion.cotizaciones.reduce((sum, cot) => {
-        return (
-          sum +
-          cot.cotizacionesDestinos.reduce(
-            (subSum, dest) => subSum + Number(dest.total_tarifa_cotizacion_destino),
-            0,
-          )
-        );
-      }, 0);
-
-      const totalCostoAdicional = validacion.cotizaciones.reduce((sum, cot) => {
-        return (
-          sum +
-          cot.cotizacionesDestinos.reduce(
-            (subSum, dest) => subSum + Number(dest.total_adicional_cotizacion_destino),
-            0,
-          )
-        );
-      }, 0);
-
-      const reciboCotizacion =
-        validacion.cotizaciones
-          .map((cot) => cot.recibo_cotizacion)
-          .filter((recibo) => recibo)
-          .join(", ") ||
-        validacion.puntoVentas
-          .map((pv) => pv.recibo_punto_venta)
-          .filter((recibo) => recibo)
-          .join(", ");
-
-      return {
-        id: validacion.id,
-        fecha_creado: validacion.fecha_creado,
-        colaborador_usuario: validacion.usuarios?.colaborador_usuario,
-        id_orden_servicio_validacion: validacion.id_orden_servicio_validacion,
-        razon_social_cliente: validacion.cotizaciones[0]?.cliente?.razon_social_cliente ?? null, 
-        total_bultos: totalBultos,
-        total_costo_envio: totalCostoEnvio,
-        total_costo_adicional: totalCostoAdicional,
-        recibo_cotizacion: reciboCotizacion,
-        precio_total_cotizacion: validacion.cotizaciones.reduce(
-          (sum, cot) => sum + cot.precio_total_cotizacion.toNumber(),
-          0,
-        ),         
-        estado_validacion: validacion.estado_validacion,
-      };
-    });
+    // Ejecutar la consulta en bruto
+    return await prisma.$queryRawUnsafe(query);
   }
 }
-
-export default new ValidacionService();
