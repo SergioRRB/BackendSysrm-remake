@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+/*
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -28,17 +29,17 @@ export const obtenerCotizaciones = async () => {
       },
     },
     orderBy: {
-      id: 'desc',
+      id: "desc",
     },
   });
-  return cotizaciones.map(cot => ({
+  return cotizaciones.map((cot) => ({
     ...cot,
     validacion_cotizacion:
-      cot.validacion_cotizacion === '0'
-        ? 'Falta validar'
-        : cot.validacion_cotizacion === '1'
-        ? 'Enviado a validar'
-        : 'Estado desconocido',
+      cot.validacion_cotizacion === "0"
+        ? "Falta validar"
+        : cot.validacion_cotizacion === "1"
+          ? "Enviado a validar"
+          : "Estado desconocido",
   }));
 };
-
+*/
