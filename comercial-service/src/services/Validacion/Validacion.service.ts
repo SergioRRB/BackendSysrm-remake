@@ -1,9 +1,26 @@
-// src/services/Validacion/Validaciones.service.ts
 import { PrismaClient } from "@prisma/client";
 
+// Inicializa una instancia del cliente de Prisma
 const prisma = new PrismaClient();
 
+/**
+ * Servicio para manejar las validaciones relacionadas con los pedidos de servicios.
+ */
 export class ValidacionesService {
+  /**
+   * Obtiene detalles de las validaciones, incluyendo información sobre usuarios, clientes, cotizaciones y puntos de venta.
+   *
+   * Esta función ejecuta una consulta SQL que:
+   * - Selecciona campos de las tablas `validaciones`, `usuarios`, `clientes`, `cotizaciones` y `punto_ventas`.
+   * - Realiza uniones (JOIN) con las tablas relacionadas para combinar información de diferentes entidades.
+   * - Suma los totales de bultos, costos de envío y costos adicionales de las cotizaciones y puntos de venta.
+   * - Genera un recibo de cotización basado en la disponibilidad de datos en las tablas correspondientes.
+   * - Filtra los resultados para excluir aquellas validaciones cuya `id_orden_servicio_validacion` comience con 'OS'.
+   * - Agrupa los resultados para evitar duplicados y ordenar la salida por la id de validación de manera descendente.
+   *
+   * @returns {Promise<Array<Object>>} - Retorna una promesa que resuelve a un arreglo de objetos con los detalles de las validaciones.
+   * @throws {Error} - Lanza un error si hay problemas al ejecutar la consulta.
+   */
   static async obtenerDetallesValidaciones() {
     const query = `
       SELECT
