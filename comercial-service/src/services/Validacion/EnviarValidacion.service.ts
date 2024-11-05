@@ -3,7 +3,22 @@ import { EnviarValidacionDto } from "../../dtos/Validation.dto";
 
 const prisma = new PrismaClient();
 
+/**
+ * Servicio para manejar el envío de validaciones.
+ */
 export class EnviarValidacionService {
+  /**
+   * Envía una validación para una cotización específica.
+   *
+   * Este método realiza las siguientes acciones:
+   * 1. Verifica si ya existe una validación activa para la cotización dada.
+   * 2. Si la validación ya existe, devuelve un mensaje indicando que no se puede enviar de nuevo.
+   * 3. Si no existe, crea un nuevo registro de validación en la base de datos.
+   * 4. Actualiza la cotización asociada para marcarla como validada.
+   *
+   * @param {EnviarValidacionDto} data - Datos necesarios para enviar la validación, incluyendo el ID de la cotización y el ID del creador de la validación.
+   * @returns {Promise<{ success: boolean; mensaje: string }>} - Retorna una promesa que resuelve en un objeto que indica el resultado de la operación, incluyendo un mensaje de éxito o error.
+   */
   async enviarValidacion(data: EnviarValidacionDto) {
     const { id, id_creador } = data; // `id` debe ser un string
     const fechaActual = new Date();

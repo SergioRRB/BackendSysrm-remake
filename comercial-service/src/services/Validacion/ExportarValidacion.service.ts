@@ -1,9 +1,36 @@
 import { PrismaClient } from "@prisma/client";
-import { Decimal } from "decimal.js"; // Ensure you import Decimal if needed
+import { Decimal } from "decimal.js"; // Asegúrate de importar Decimal si es necesario
 
 const prisma = new PrismaClient();
 
+/**
+ * Servicio para exportar validaciones.
+ */
 export class ExportarValidationService {
+  /**
+   * Exporta las validaciones y calcula los totales relacionados.
+   *
+   * Este método realiza las siguientes acciones:
+   * 1. Recupera todas las validaciones desde la base de datos, incluyendo detalles sobre
+   *    cotizaciones, usuarios, y destinos de cotización.
+   * 2. Calcula el total de bultos, costo de envío, y costos adicionales para cada validación.
+   * 3. Retorna un arreglo de objetos que representan las validaciones exportadas con
+   *    información agregada.
+   *
+   * @returns {Promise<Array<{
+   *   fechaCreado: Date;
+   *   colaboradorUsuario: string | null;
+   *   idOrdenServicioValidacion: string;
+   *   razonSocialCliente: string | undefined;
+   *   totalBultos: number;
+   *   cantidadDestinosCotizacion: number;
+   *   totalCostoEnvio: number;
+   *   totalCostoAdicional: number;
+   *   reciboCotizacion: string | undefined;
+   *   precioTotalCotizacion: Decimal | null;
+   * }>>} - Retorna una promesa que resuelve en un arreglo de objetos que contienen
+   * información de las validaciones exportadas.
+   */
   async exportarValidaciones() {
     const validaciones = await prisma.validaciones.findMany({
       select: {
@@ -59,7 +86,7 @@ export class ExportarValidationService {
             (innerSum, destino) =>
               innerSum +
               (destino.total_tarifa_cotizacion_destino
-                ? destino.total_tarifa_cotizacion_destino.toNumber() // Convert to number
+                ? destino.total_tarifa_cotizacion_destino.toNumber() // Convertir a número
                 : 0),
             0,
           ),
@@ -73,7 +100,7 @@ export class ExportarValidationService {
             (innerSum, destino) =>
               innerSum +
               (destino.total_adicional_cotizacion_destino
-                ? destino.total_adicional_cotizacion_destino.toNumber() // Convert to number
+                ? destino.total_adicional_cotizacion_destino.toNumber() // Convertir a número
                 : 0),
             0,
           ),
