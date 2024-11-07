@@ -4,7 +4,7 @@ import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.
 
 const prisma = new PrismaClient();
 
-export class ProgramacionService {
+export class GuardarProgramacionService {
   async saveProgramacion(data: CreateProgramacionDto) {
     const existeProgramacion = await prisma.programaciones.findUnique({
       where: { id_orden_servicio: data.id_orden_servicio },
@@ -17,7 +17,7 @@ export class ProgramacionService {
     const programacion = await prisma.programaciones.create({
       data: {
         id_orden_servicio: data.id_orden_servicio,
-        id_cliente_programacion: data.id_cliente,
+        id_cliente_programacion: data.id_cliente_programacion,
         area_programacion: data.area_programacion,
         ubigeo_programacion: data.ubigeo_programacion,
         direccion_programacion: data.direccion_programacion,
@@ -32,8 +32,10 @@ export class ProgramacionService {
         peso_volumen_programacion: data.peso_volumen_programacion,
         metros_cubicos_programacion: data.metros_cubicos_programacion,
         fecha_programacion: new Date(data.fecha_programacion),
-        hora_programacion: data.hora_programacion,
-        id_creador_programacion: data.id_creador,
+        hora_programacion: new Date(
+          `${data.fecha_programacion}T${data.hora_programacion}:00`,
+        ), // Concatenar fecha y hora
+        id_creador_programacion: data.id_creador_programacion,
         fecha_creado: new Date(),
       },
     });

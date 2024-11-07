@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, IsNumeric, IsString } from "class-validator";
+import { IsNotEmpty, IsEmail, IsNumber, IsString } from "class-validator";
 
 export class CreateProgramacionDto {
   @IsNotEmpty()
@@ -6,7 +6,7 @@ export class CreateProgramacionDto {
   area_programacion!: string;
 
   @IsNotEmpty()
-  @IsNumeric()
+  @IsNumber()
   cantidad_bultos_programacion!: number;
 
   @IsNotEmpty()
@@ -26,33 +26,33 @@ export class CreateProgramacionDto {
   direccion_programacion!: string;
 
   @IsNotEmpty()
-  fecha_programacion!: string;
+  fecha_programacion!: Date; // Cambia a `Date` si necesitas validación de fecha
 
   @IsNotEmpty()
-  hora_programacion!: string;
+  hora_programacion!: string; // Cambia a `Date` si es una hora
 
   @IsNotEmpty()
-  @IsNumeric()
-  id_cliente!: number;
+  @IsNumber()
+  id_cliente_programacion!: number;
 
   @IsNotEmpty()
-  @IsNumeric()
-  id_creador!: number;
+  @IsNumber()
+  id_creador_programacion!: number;
 
   @IsNotEmpty()
-  @IsNumeric()
-  id_orden_servicio!: number;
+  @IsString() // Asume que es un string; ajusta si realmente es un número
+  id_orden_servicio!: string;
 
   @IsNotEmpty()
-  @IsNumeric()
+  @IsNumber()
   metros_cubicos_programacion!: number;
 
   @IsNotEmpty()
-  @IsNumeric()
+  @IsNumber()
   peso_mercancia_programacion!: number;
 
   @IsNotEmpty()
-  @IsNumeric()
+  @IsNumber()
   peso_volumen_programacion!: number;
 
   @IsNotEmpty()
@@ -60,8 +60,8 @@ export class CreateProgramacionDto {
   referencias_programacion!: string;
 
   @IsNotEmpty()
-  @IsNumeric()
-  telefono_programacion!: number;
+  @IsString() // Usar `IsString` aquí si es realmente un string, ajusta si es un número
+  telefono_programacion!: string;
 
   @IsNotEmpty()
   @IsString()

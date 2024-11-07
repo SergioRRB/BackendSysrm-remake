@@ -1,12 +1,11 @@
-// src/controllers/ProgramacionController.ts
 import { Request, Response } from "express";
 import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
 import { validate } from "class-validator";
-import { ProgramacionService } from "../../services/Programacion/saveProgramacion.service";
+import { GuardarProgramacionService } from "../../services/Programacion/saveProgramacion.service";
 
-const programacionService = new ProgramacionService();
+const guardarProgramacionService = new GuardarProgramacionService();
 
-export class ProgramacionController {
+export class GuardarProgramacionController {
   async guardarProgramacion(req: Request, res: Response) {
     const data = Object.assign(new CreateProgramacionDto(), req.body);
     const errors = await validate(data);
@@ -18,7 +17,8 @@ export class ProgramacionController {
     }
 
     try {
-      const programacion = await programacionService.saveProgramacion(data);
+      const programacion =
+        await guardarProgramacionService.saveProgramacion(data);
       return res.status(201).json({
         success: true,
         message: "Programado Correctamente",

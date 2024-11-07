@@ -1,12 +1,18 @@
-// src/routes/programacionRoutes.ts
 import { Router } from "express";
-import { ProgramacionController } from "../../controllers/Programacion/saveProgramacion.controller";
+import { GuardarProgramacionController } from "../../controllers/Programacion/saveProgramacion.controller";
+import { ListarProgramacionController } from "../../controllers/Programacion/listProgramacion.controller";
 
 const router = Router();
-const programacionController = new ProgramacionController();
 
-router.post("/programacion", (req, res) =>
-  programacionController.guardarProgramacion(req, res),
+const guardarProgramacionController = new GuardarProgramacionController();
+const listarProgramacionController = new ListarProgramacionController();
+
+router.post("/SaveProgramacion", (req, res) =>
+  guardarProgramacionController.guardarProgramacion(req, res),
+);
+router.get(
+  "/GetProgramaciones",
+  listarProgramacionController.listarProgramaciones,
 );
 
 export default router;

@@ -40,27 +40,28 @@ model asignacion_recojos {
 }
 
 model clientes {
-  id                          Int            @id @default(autoincrement())
-  dni_cliente                 String         @db.Char(11)
-  razon_social_cliente        String         @db.VarChar(250)
-  representante_cliente       String         @db.VarChar(250)
-  clave_cliente               String         @db.VarChar(250)
+  id                          Int              @id @default(autoincrement())
+  dni_cliente                 String           @db.Char(11)
+  razon_social_cliente        String           @db.VarChar(250)
+  representante_cliente       String           @db.VarChar(250)
+  clave_cliente               String           @db.VarChar(250)
   id_vendedor_usuario_cliente Int
-  limite_credito_cliente      Decimal        @db.Decimal(15, 4)
-  alerta_credito_cliente      Decimal        @db.Decimal(15, 4)
-  ubigeo_cliente              String         @db.Char(11)
-  direccion_cliente           String         @db.VarChar(250)
-  referencias_cliente         String         @db.VarChar(250)
-  contacto_cliente            String         @db.VarChar(250)
-  telefono_cliente            String         @db.Char(9)
-  email_cliente               String         @db.VarChar(250)
-  area_cliente                String         @db.VarChar(250)
-  logo_cliente                String         @db.VarChar(250)
+  limite_credito_cliente      Decimal          @db.Decimal(15, 4)
+  alerta_credito_cliente      Decimal          @db.Decimal(15, 4)
+  ubigeo_cliente              String           @db.Char(11)
+  direccion_cliente           String           @db.VarChar(250)
+  referencias_cliente         String           @db.VarChar(250)
+  contacto_cliente            String           @db.VarChar(250)
+  telefono_cliente            String           @db.Char(9)
+  email_cliente               String           @db.VarChar(250)
+  area_cliente                String           @db.VarChar(250)
+  logo_cliente                String           @db.VarChar(250)
   id_creador_cliente          Int?
-  estado                      String         @default("1") @db.Char(1)
-  fecha_creado                DateTime       @db.Date
-  fecha_actualizado           DateTime       @default(now()) @db.Timestamp(0)
+  estado                      String           @default("1") @db.Char(1)
+  fecha_creado                DateTime         @db.Date
+  fecha_actualizado           DateTime         @default(now()) @db.Timestamp(0)
   cotizaciones                cotizaciones[]
+  programaciones              programaciones[]
 }
 
 model cotizaciones {
@@ -288,7 +289,7 @@ model permisos {
 
 model programaciones {
   id                                 Int       @id @default(autoincrement())
-  id_orden_servicio                  String    @db.Char(11)
+  id_orden_servicio                  String    @unique @db.Char(11)
   id_cliente_programacion            Int
   area_programacion                  String    @db.VarChar(250)
   ubigeo_programacion                String    @db.Char(11)
@@ -307,6 +308,7 @@ model programaciones {
   id_creador_programacion            Int
   fecha_creado                       DateTime? @db.Date
   fecha_actualizado                  DateTime  @default(now()) @db.Timestamp(0)
+  clientes                           clientes  @relation(fields: [id_cliente_programacion], references: [id])
 }
 
 model proveedores {
