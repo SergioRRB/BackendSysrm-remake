@@ -4,11 +4,10 @@ import { ListarProgramacionController } from "../../controllers/Programacion/lis
 
 const router = Router();
 
-const guardarProgramacionController = new GuardarProgramacionController();
 const listarProgramacionController = new ListarProgramacionController();
 
 router.post("/SaveProgramacion", (req, res) =>
-  guardarProgramacionController.guardarProgramacion(req, res),
+  GuardarProgramacionController.guardarProgramacion(req, res),
 );
 router.get(
   "/GetProgramaciones",

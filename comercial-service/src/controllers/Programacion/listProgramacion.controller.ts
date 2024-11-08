@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ListarProgramacionService } from "../../services/Programacion/listartProgramaciones.service";
+import { ListarProgramacionService } from "../../services/Programacion/listarProgramaciones.service";
 
 const listarProgramacionService = new ListarProgramacionService();
 

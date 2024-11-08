@@ -1,31 +1,33 @@
 import { Request, Response } from "express";
-import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
-import { validate } from "class-validator";
 import { GuardarProgramacionService } from "../../services/Programacion/saveProgramacion.service";
+import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
 
 const guardarProgramacionService = new GuardarProgramacionService();
 
 export class GuardarProgramacionController {
-  async guardarProgramacion(req: Request, res: Response) {
-    const data = Object.assign(new CreateProgramacionDto(), req.body);
-    const errors = await validate(data);
+  static async guardarProgramacion(req: Request, res: Response) {
+    const data: CreateProgramacionDto = req.body;
 
-    if (errors.length > 0) {
+    // Validación básica de datos (puedes expandir según sea necesario)
+    if (
+      !data.id_orden_servicio ||
+      !data.id_cliente_programacion ||
+      !data.area_programacion
+    ) {
       return res
         .status(400)
-        .json({ success: false, message: "Datos no válidos", errors });
+        .json({ success: false, message: "Campos obligatorios faltantes" });
     }
 
     try {
-      const programacion =
-        await guardarProgramacionService.saveProgramacion(data);
-      return res.status(201).json({
-        success: true,
-        message: "Programado Correctamente",
-        data: programacion,
+      const result = await guardarProgramacionService.saveProgramacion(data);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Error al guardar programación",
+        error,
       });
-    } catch (error: any) {
-      return res.status(400).json({ success: false, message: error.message });
     }
   }
 }

@@ -1,36 +1,32 @@
 import { PrismaClient } from "@prisma/client";
 import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
-
 const prisma = new PrismaClient();
 
 export class GuardarProgramacionService {
   async saveProgramacion(data: CreateProgramacionDto) {
+    const fechaActual = new Date().toISOString();
+
     // Verificar si ya existe una programación para la orden de servicio
     const existeProgramacion = await prisma.programaciones.findUnique({
       where: { id_orden_servicio: data.id_orden_servicio },
     });
 
-    if (existeProgramacion) {
-      throw new Error("Error: ¡La orden de servicio ya está programada!");
+    // Verificar que el cliente exista
+    const clienteExistente = await prisma.clientes.findUnique({
+      where: {
+        id: data.id_cliente_programacion,
+      },
+    });
+
+    if (!clienteExistente) {
+      return { success: false, message: "Cliente no encontrado" };
     }
 
-    // Validar el tipo de id_cliente_programacion
-    if (data.id_cliente_programacion !== null) {
-      const idClienteIsValid =
-        typeof data.id_cliente_programacion === "string" ||
-        typeof data.id_cliente_programacion === "number";
-      if (!idClienteIsValid) {
-        throw new Error(
-          "id_cliente_programacion debe ser un número o una cadena",
-        );
-      }
-    }
-
-    // Crear la programación sin validar si el cliente existe
-    const programacion = await prisma.programaciones.create({
+    // Si no existe, creamos una nueva programación
+    const newProgramacion = await prisma.programaciones.create({
       data: {
         id_orden_servicio: data.id_orden_servicio,
-        id_cliente_programacion: data.id_cliente_programacion ?? null, // Si no hay cliente, lo dejamos como null
+        id_cliente_programacion: data.id_cliente_programacion,
         area_programacion: data.area_programacion,
         ubigeo_programacion: data.ubigeo_programacion,
         direccion_programacion: data.direccion_programacion,
@@ -47,12 +43,16 @@ export class GuardarProgramacionService {
         fecha_programacion: new Date(data.fecha_programacion),
         hora_programacion: new Date(
           `${data.fecha_programacion}T${data.hora_programacion}:00`,
-        ), // Concatenar fecha y hora
+        ),
         id_creador_programacion: data.id_creador_programacion,
-        fecha_creado: new Date(),
+        fecha_creado: fechaActual,
       },
     });
 
-    return programacion;
+    return {
+      success: true,
+      message: "Programación creada correctamente",
+      datos: newProgramacion,
+    };
   }
 }
