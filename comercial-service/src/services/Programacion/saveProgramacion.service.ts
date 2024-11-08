@@ -1,4 +1,3 @@
-// src/services/ProgramacionService.ts
 import { PrismaClient } from "@prisma/client";
 import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
 
@@ -6,6 +5,7 @@ const prisma = new PrismaClient();
 
 export class GuardarProgramacionService {
   async saveProgramacion(data: CreateProgramacionDto) {
+    // Verificar si ya existe una programación para la orden de servicio
     const existeProgramacion = await prisma.programaciones.findUnique({
       where: { id_orden_servicio: data.id_orden_servicio },
     });
@@ -14,10 +14,23 @@ export class GuardarProgramacionService {
       throw new Error("Error: ¡La orden de servicio ya está programada!");
     }
 
+    // Validar el tipo de id_cliente_programacion
+    if (data.id_cliente_programacion !== null) {
+      const idClienteIsValid =
+        typeof data.id_cliente_programacion === "string" ||
+        typeof data.id_cliente_programacion === "number";
+      if (!idClienteIsValid) {
+        throw new Error(
+          "id_cliente_programacion debe ser un número o una cadena",
+        );
+      }
+    }
+
+    // Crear la programación sin validar si el cliente existe
     const programacion = await prisma.programaciones.create({
       data: {
         id_orden_servicio: data.id_orden_servicio,
-        id_cliente_programacion: data.id_cliente_programacion,
+        id_cliente_programacion: data.id_cliente_programacion ?? null, // Si no hay cliente, lo dejamos como null
         area_programacion: data.area_programacion,
         ubigeo_programacion: data.ubigeo_programacion,
         direccion_programacion: data.direccion_programacion,

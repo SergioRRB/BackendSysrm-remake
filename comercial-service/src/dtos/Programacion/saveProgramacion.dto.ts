@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsEmail, IsNumber, IsString } from "class-validator";
+import {
+  IsNotEmpty,
+  IsEmail,
+  IsNumber,
+  IsString,
+  IsOptional,
+} from "class-validator";
+import { IsStringOrNumber } from "./validators/IsStringOrNumber"; // Crea el validador personalizado
 
 export class CreateProgramacionDto {
   @IsNotEmpty()
@@ -26,21 +33,21 @@ export class CreateProgramacionDto {
   direccion_programacion!: string;
 
   @IsNotEmpty()
-  fecha_programacion!: Date; // Cambia a `Date` si necesitas validación de fecha
+  fecha_programacion!: Date;
 
   @IsNotEmpty()
-  hora_programacion!: string; // Cambia a `Date` si es una hora
+  hora_programacion!: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  id_cliente_programacion!: number;
+  // Remove @IsNotEmpty() and add @IsOptional() to allow `null` or undefined
+  @IsOptional()
+  id_cliente_programacion?: null;
 
   @IsNotEmpty()
   @IsNumber()
   id_creador_programacion!: number;
 
   @IsNotEmpty()
-  @IsString() // Asume que es un string; ajusta si realmente es un número
+  @IsString()
   id_orden_servicio!: string;
 
   @IsNotEmpty()
@@ -60,7 +67,7 @@ export class CreateProgramacionDto {
   referencias_programacion!: string;
 
   @IsNotEmpty()
-  @IsString() // Usar `IsString` aquí si es realmente un string, ajusta si es un número
+  @IsString()
   telefono_programacion!: string;
 
   @IsNotEmpty()

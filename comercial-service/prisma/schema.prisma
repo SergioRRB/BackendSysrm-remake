@@ -290,7 +290,7 @@ model permisos {
 model programaciones {
   id                                 Int       @id @default(autoincrement())
   id_orden_servicio                  String    @unique @db.Char(11)
-  id_cliente_programacion            Int
+  id_cliente_programacion            Int?
   area_programacion                  String    @db.VarChar(250)
   ubigeo_programacion                String    @db.Char(11)
   direccion_programacion             String    @db.VarChar(250)
@@ -308,7 +308,7 @@ model programaciones {
   id_creador_programacion            Int
   fecha_creado                       DateTime? @db.Date
   fecha_actualizado                  DateTime  @default(now()) @db.Timestamp(0)
-  clientes                           clientes  @relation(fields: [id_cliente_programacion], references: [id])
+  clientes                           clientes? @relation(fields: [id_cliente_programacion], references: [id])
 }
 
 model proveedores {
