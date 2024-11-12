@@ -40,27 +40,28 @@ model asignacion_recojos {
 }
 
 model clientes {
-  id                          Int            @id @default(autoincrement())
-  dni_cliente                 String         @db.Char(11)
-  razon_social_cliente        String         @db.VarChar(250)
-  representante_cliente       String         @db.VarChar(250)
-  clave_cliente               String         @db.VarChar(250)
+  id                          Int              @id @default(autoincrement())
+  dni_cliente                 String           @db.Char(11)
+  razon_social_cliente        String           @db.VarChar(250)
+  representante_cliente       String           @db.VarChar(250)
+  clave_cliente               String           @db.VarChar(250)
   id_vendedor_usuario_cliente Int
-  limite_credito_cliente      Decimal        @db.Decimal(15, 4)
-  alerta_credito_cliente      Decimal        @db.Decimal(15, 4)
-  ubigeo_cliente              String         @db.Char(11)
-  direccion_cliente           String         @db.VarChar(250)
-  referencias_cliente         String         @db.VarChar(250)
-  contacto_cliente            String         @db.VarChar(250)
-  telefono_cliente            String         @db.Char(9)
-  email_cliente               String         @db.VarChar(250)
-  area_cliente                String         @db.VarChar(250)
-  logo_cliente                String         @db.VarChar(250)
+  limite_credito_cliente      Decimal          @db.Decimal(15, 4)
+  alerta_credito_cliente      Decimal          @db.Decimal(15, 4)
+  ubigeo_cliente              String           @db.Char(11)
+  direccion_cliente           String           @db.VarChar(250)
+  referencias_cliente         String           @db.VarChar(250)
+  contacto_cliente            String           @db.VarChar(250)
+  telefono_cliente            String           @db.Char(9)
+  email_cliente               String           @db.VarChar(250)
+  area_cliente                String           @db.VarChar(250)
+  logo_cliente                String           @db.VarChar(250)
   id_creador_cliente          Int?
-  estado                      String         @default("1") @db.Char(1)
-  fecha_creado                DateTime       @db.Date
-  fecha_actualizado           DateTime       @default(now()) @db.Timestamp(0)
+  estado                      String           @default("1") @db.Char(1)
+  fecha_creado                DateTime         @db.Date
+  fecha_actualizado           DateTime         @default(now()) @db.Timestamp(0)
   cotizaciones                cotizaciones[]
+  programaciones              programaciones[]
 }
 
 model cotizaciones {
@@ -80,8 +81,8 @@ model cotizaciones {
   fecha_actualizado            DateTime                @default(now()) @db.Timestamp(0)
   area                         areas?                  @relation(fields: [id_area_cotizacion], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cotizaciones_areas")
   cliente                      clientes?               @relation(fields: [id_cliente_cotizacion], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cotizaciones_clientes")
-  validaciones                 validaciones[]          @relation("ValidacionCotizaciones")
   cotizaciones_destinos        cotizaciones_destinos[]
+  validaciones                 validaciones[]          @relation("ValidacionCotizaciones")
 
   @@index([id_area_cotizacion], map: "fk_cotizaciones_areas")
   @@index([id_cliente_cotizacion], map: "fk_cotizaciones_clientes")
@@ -129,8 +130,10 @@ model cotizaciones_destinos {
   estado                                  String        @default("1") @db.Char(1)
   fecha_creado                            DateTime?     @db.Date
   fecha_actualizado                       DateTime      @default(now()) @db.Timestamp(0)
-  cotizaciones                            cotizaciones? @relation(fields: [cotizacionesId], references: [id])
   cotizacionesId                          Int?
+  cotizaciones                            cotizaciones? @relation(fields: [cotizacionesId], references: [id])
+
+  @@index([cotizacionesId], map: "cotizaciones_destinos_cotizacionesId_fkey")
 }
 
 model departamentos {
@@ -180,6 +183,8 @@ model distritos {
   nombre_dist  String? @db.VarChar(50)
   ubigeo       String? @db.VarChar(15)
   provincia_id Int
+
+  @@index([provincia_id], map: "distritos_provincia_id_fkey")
 }
 
 model estados_guias {
@@ -288,7 +293,7 @@ model permisos {
 
 model programaciones {
   id                                 Int       @id @default(autoincrement())
-  id_orden_servicio                  String    @db.Char(11)
+  id_orden_servicio                  String    @unique @db.Char(11)
   id_cliente_programacion            Int
   area_programacion                  String    @db.VarChar(250)
   ubigeo_programacion                String    @db.Char(11)
@@ -307,6 +312,10 @@ model programaciones {
   id_creador_programacion            Int
   fecha_creado                       DateTime? @db.Date
   fecha_actualizado                  DateTime  @default(now()) @db.Timestamp(0)
+  clientes                           clientes  @relation(fields: [id_cliente_programacion], references: [id])
+
+  @@index([id_cliente_programacion], map: "programaciones_id_cliente_programacion_fkey")
+  @@index([ubigeo_programacion], map: "programaciones_ubigeo_programacion_fkey")
 }
 
 model proveedores {
@@ -334,6 +343,8 @@ model provincias {
   nombre_prov     String? @db.VarChar(50)
   ubigeo          String? @db.VarChar(15)
   departamento_id Int
+
+  @@index([departamento_id], map: "provincias_departamento_id_fkey")
 }
 
 model punto_ventas {
@@ -676,6 +687,8 @@ model validaciones {
   fecha_actualizado            DateTime       @default(now()) @db.Timestamp(0)
   usuarios                     usuarios?      @relation(fields: [id_accion_validacion], references: [id])
   cotizaciones                 cotizaciones[] @relation("ValidacionCotizaciones")
+
+  @@index([id_accion_validacion], map: "validaciones_id_accion_validacion_fkey")
 }
 
 model vehiculos {
