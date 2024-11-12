@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 //app.use('/api/cotizaciones', cotizacionesRoutes);
-app.use("/api/validaciones", validationRoutes); // Prefijo para las rutas de validaciones
-app.use("/api/programacion", programacionRoutes); // Prefijo para las rutas de validaciones
+app.use("/api/Validaciones", validationRoutes); // Prefijo para las rutas de validaciones
+app.use("/api/Programacion", programacionRoutes); // Prefijo para las rutas de validaciones
 
 export default app;
