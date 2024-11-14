@@ -26,17 +26,22 @@ model areas {
 }
 
 model asignacion_recojos {
-  id                       Int       @id @default(autoincrement())
-  id_orden_servicio_recojo String    @db.Char(11)
+  id                       Int            @id @default(autoincrement())
+  id_orden_servicio_recojo String         @db.Char(11)
   id_proveedor_recojo      Int?
-  dni_conductor_recojo     String?   @db.Char(11)
-  nombre_conductor_recojo  String?   @db.VarChar(250)
-  dni_auxiliar_recojo      String?   @db.Char(11)
-  nombre_auxiliar_recojo   String?   @db.VarChar(250)
+  dni_conductor_recojo     String?        @db.Char(11)
+  nombre_conductor_recojo  String?        @db.VarChar(250)
+  dni_auxiliar_recojo      String?        @db.Char(11)
+  nombre_auxiliar_recojo   String?        @db.VarChar(250)
   id_conductor_recojo      Int?
   id_auxiliar_recojo       Int?
-  fecha_creado             DateTime? @db.Date
-  fecha_actualizado        DateTime  @default(now()) @db.Timestamp(0)
+  fecha_creado             DateTime?      @db.Date
+  fecha_actualizado        DateTime       @default(now()) @db.Timestamp(0)
+  programaciones           programaciones @relation(fields: [id_orden_servicio_recojo], references: [id_orden_servicio])
+
+  @@index([id_orden_servicio_recojo], map: "fk_asignacion_programacion")
+  @@index([id_conductor_recojo], map: "fk_asignacion_conductor")
+  @@index([id_auxiliar_recojo], map: "fk_asignacion_auxiliar")
 }
 
 model clientes {
@@ -62,6 +67,8 @@ model clientes {
   fecha_actualizado           DateTime         @default(now()) @db.Timestamp(0)
   cotizaciones                cotizaciones[]
   programaciones              programaciones[]
+
+  @@index([razon_social_cliente], map: "idx_cliente_razon_social")
 }
 
 model cotizaciones {
@@ -292,27 +299,29 @@ model permisos {
 }
 
 model programaciones {
-  id                                 Int       @id @default(autoincrement())
-  id_orden_servicio                  String    @unique @db.Char(11)
+  id                                 Int                  @id @default(autoincrement())
+  id_orden_servicio                  String               @unique @db.Char(11)
   id_cliente_programacion            Int
-  area_programacion                  String    @db.VarChar(250)
-  ubigeo_programacion                String    @db.Char(11)
-  direccion_programacion             String    @db.VarChar(250)
-  referencias_programacion           String    @db.VarChar(250)
-  contacto_programacion              String    @db.VarChar(250)
-  telefono_programacion              String    @db.Char(9)
-  correo_programacion                String    @db.VarChar(250)
-  descripcion_mercancia_programacion String    @db.VarChar(250)
+  area_programacion                  String               @db.VarChar(250)
+  ubigeo_programacion                String               @db.Char(11)
+  direccion_programacion             String               @db.VarChar(250)
+  referencias_programacion           String               @db.VarChar(250)
+  contacto_programacion              String               @db.VarChar(250)
+  telefono_programacion              String               @db.Char(9)
+  correo_programacion                String               @db.VarChar(250)
+  descripcion_mercancia_programacion String               @db.VarChar(250)
   cantidad_bultos_programacion       Int
-  peso_mercancia_programacion        Decimal   @db.Decimal(12, 1)
-  peso_volumen_programacion          Decimal   @db.Decimal(12, 1)
-  metros_cubicos_programacion        Decimal   @db.Decimal(12, 1)
-  fecha_programacion                 DateTime  @db.Date
-  hora_programacion                  DateTime  @db.Time(0)
+  peso_mercancia_programacion        Decimal              @db.Decimal(12, 1)
+  peso_volumen_programacion          Decimal              @db.Decimal(12, 1)
+  metros_cubicos_programacion        Decimal              @db.Decimal(12, 1)
+  fecha_programacion                 DateTime             @db.Date
+  hora_programacion                  DateTime             @db.Time(0)
   id_creador_programacion            Int
-  fecha_creado                       DateTime? @db.Date
-  fecha_actualizado                  DateTime  @default(now()) @db.Timestamp(0)
-  clientes                           clientes  @relation(fields: [id_cliente_programacion], references: [id])
+  fecha_creado                       DateTime?            @db.Date
+  fecha_actualizado                  DateTime             @default(now()) @db.Timestamp(0)
+  clientes                           clientes             @relation(fields: [id_cliente_programacion], references: [id])
+  asignacion_recojos                 asignacion_recojos[]
+  ubigeo                             ubigeo[]
 
   @@index([id_cliente_programacion], map: "programaciones_id_cliente_programacion_fkey")
   @@index([ubigeo_programacion], map: "programaciones_ubigeo_programacion_fkey")
@@ -649,12 +658,14 @@ model tarifarios_transportistas_courriers {
 }
 
 model ubigeo {
-  UBIGEO       Int     @id
-  DEPARTAMENTO String? @db.Text
-  PROVINCIA    String? @db.Text
-  DESTINO      String? @db.Text
-  Zona         String? @db.Text
-  id           Int?
+  UBIGEO           Int             @id
+  DEPARTAMENTO     String?         @db.Text
+  PROVINCIA        String?         @db.Text
+  DESTINO          String?         @db.Text
+  Zona             String?         @db.Text
+  id               Int?
+  programaciones   programaciones? @relation(fields: [programacionesId], references: [id])
+  programacionesId Int?
 }
 
 model usuarios {
@@ -674,6 +685,8 @@ model usuarios {
   fecha_creado        DateTime       @db.Date
   fecha_actualizado   DateTime       @default(now()) @db.Timestamp(0)
   validaciones        validaciones[]
+
+  @@index([colaborador_usuario], map: "idx_usuario_colaborador")
 }
 
 model validaciones {
