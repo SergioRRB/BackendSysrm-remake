@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
+// Interfaz para representar los datos de la consulta
 export class ObtenerAsignacionRecojoService {
   async obtenerAsignaciones() {
     const programaciones = await prisma.programaciones.findMany({
@@ -9,6 +9,7 @@ export class ObtenerAsignacionRecojoService {
         //id: true, // Selecciona el id de la programación
         asignacion_recojos: {
           select: {
+            id: true,
             id_orden_servicio_recojo: true, // Asignación del recojo
             id_conductor_recojo: true, // ID del conductor
             id_auxiliar_recojo: true, // ID del auxiliar
@@ -23,6 +24,7 @@ export class ObtenerAsignacionRecojoService {
         },
         ubigeo: {
           select: {
+            UBIGEO: true,
             DEPARTAMENTO: true, // Departamento del ubigeo
             PROVINCIA: true, // Provincia del ubigeo
             DESTINO: true, // Destino del ubigeo
