@@ -5,7 +5,6 @@ import validationRoutes from "./routes/Validation/validation.routes";
 import programacionRoutes from "./routes/Programacion/programacion.routes";
 import asignacionRecojoRoutes from "./routes/AsignacionRecojo/asignacionRecojo.routes";
 
-
 const app = express();
 app.use(cors());
 app.use(express.json());
