@@ -319,7 +319,7 @@ model programaciones {
   id_creador_programacion            Int
   fecha_creado                       DateTime? @db.Date
   fecha_actualizado                  DateTime  @default(now()) @db.Timestamp(0)
-
+  
   clientes           clientes             @relation(fields: [id_cliente_programacion], references: [id])
   asignacion_recojos asignacion_recojos[]
   ubigeo             ubigeo[]

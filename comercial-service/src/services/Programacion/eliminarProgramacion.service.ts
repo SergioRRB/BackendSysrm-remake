@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function eliminarProgramacion(id: number) {
+  // Validar si ya ha sido asignado
   const count = await prisma.asignacion_recojos.count({
     where: { id: id },
   });
@@ -14,6 +15,7 @@ export async function eliminarProgramacion(id: number) {
     };
   }
 
+  // Eliminar la programación si no está asignada
   try {
     await prisma.programaciones.delete({
       where: { id: id },
