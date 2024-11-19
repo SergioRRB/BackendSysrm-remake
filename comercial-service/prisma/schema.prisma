@@ -299,29 +299,30 @@ model permisos {
 }
 
 model programaciones {
-  id                                 Int                  @id @default(autoincrement())
-  id_orden_servicio                  String               @unique @db.Char(11)
+  id                                 Int       @id @default(autoincrement())
+  id_orden_servicio                  String    @unique @db.Char(11)
   id_cliente_programacion            Int
-  area_programacion                  String               @db.VarChar(250)
-  ubigeo_programacion                String               @db.Char(11)
-  direccion_programacion             String               @db.VarChar(250)
-  referencias_programacion           String               @db.VarChar(250)
-  contacto_programacion              String               @db.VarChar(250)
-  telefono_programacion              String               @db.Char(9)
-  correo_programacion                String               @db.VarChar(250)
-  descripcion_mercancia_programacion String               @db.VarChar(250)
+  area_programacion                  String    @db.VarChar(250)
+  ubigeo_programacion                String    @db.Char(11)
+  direccion_programacion             String    @db.VarChar(250)
+  referencias_programacion           String    @db.VarChar(250)
+  contacto_programacion              String    @db.VarChar(250)
+  telefono_programacion              String    @db.Char(9)
+  correo_programacion                String    @db.VarChar(250)
+  descripcion_mercancia_programacion String    @db.VarChar(250)
   cantidad_bultos_programacion       Int
-  peso_mercancia_programacion        Decimal              @db.Decimal(12, 1)
-  peso_volumen_programacion          Decimal              @db.Decimal(12, 1)
-  metros_cubicos_programacion        Decimal              @db.Decimal(12, 1)
-  fecha_programacion                 DateTime             @db.Date
-  hora_programacion                  DateTime             @db.Time(0)
+  peso_mercancia_programacion        Decimal   @db.Decimal(12, 1)
+  peso_volumen_programacion          Decimal   @db.Decimal(12, 1)
+  metros_cubicos_programacion        Decimal   @db.Decimal(12, 1)
+  fecha_programacion                 DateTime  @db.Date
+  hora_programacion                  DateTime  @db.Time(0)
   id_creador_programacion            Int
-  fecha_creado                       DateTime?            @db.Date
-  fecha_actualizado                  DateTime             @default(now()) @db.Timestamp(0)
-  clientes                           clientes             @relation(fields: [id_cliente_programacion], references: [id])
-  asignacion_recojos                 asignacion_recojos[]
-  ubigeo                             ubigeo[]
+  fecha_creado                       DateTime? @db.Date
+  fecha_actualizado                  DateTime  @default(now()) @db.Timestamp(0)
+
+  clientes           clientes             @relation(fields: [id_cliente_programacion], references: [id])
+  asignacion_recojos asignacion_recojos[]
+  ubigeo             ubigeo[]
 
   @@index([id_cliente_programacion], map: "programaciones_id_cliente_programacion_fkey")
   @@index([ubigeo_programacion], map: "programaciones_ubigeo_programacion_fkey")
@@ -658,14 +659,13 @@ model tarifarios_transportistas_courriers {
 }
 
 model ubigeo {
-  UBIGEO           Int             @id
-  DEPARTAMENTO     String?         @db.Text
-  PROVINCIA        String?         @db.Text
-  DESTINO          String?         @db.Text
-  Zona             String?         @db.Text
-  id               Int?
-  programaciones   programaciones? @relation(fields: [programacionesId], references: [id])
-  programacionesId Int?
+  UBIGEO         Int              @id
+  DEPARTAMENTO   String?          @db.Text
+  PROVINCIA      String?          @db.Text
+  DESTINO        String?          @db.Text
+  Zona           String?          @db.Text
+  id             Int?
+  programaciones programaciones[]
 }
 
 model usuarios {
