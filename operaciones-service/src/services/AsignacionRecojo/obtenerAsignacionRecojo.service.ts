@@ -29,14 +29,6 @@ export class ObtenerAsignacionRecojoService {
           fecha_creado: true,
 
           // Relacionar las tablas necesarias
-          /*
-          asignacion_recojos: {
-            select: {
-              id_orden_servicio_recojo: true,
-              id_conductor_recojo: true,
-              id_auxiliar_recojo: true,
-            },
-          },*/
           asignacion_recojos: {
             select: {
               id_orden_servicio_recojo: true,
@@ -57,27 +49,6 @@ export class ObtenerAsignacionRecojoService {
               DESTINO: true,
             },
           },
-          /*
-          usuariosConductor: {
-            select: {
-              colaborador_usuario: true,
-            },
-            where: {
-              id: {
-                equals: prisma.asignacion_recojos.id_conductor_recojo,
-              },
-            },
-          },
-          usuariosAuxiliar: {
-            select: {
-              colaborador_usuario: true,
-            },
-            where: {
-              id: {
-                equals: prisma.asignacion_recojos.id_auxiliar_recojo,
-              },
-            },
-          },*/
         },
         orderBy: {
           id: "desc", // Ordenar por el ID en orden descendente
