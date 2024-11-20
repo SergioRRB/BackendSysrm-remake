@@ -1,15 +1,14 @@
-/*
-import { Request, Response } from 'express';
-import { obtenerCotizaciones } from '../services/cotizacion.service';
+import { Request, Response } from "express";
+import { obtenerCotizaciones } from "../services/cotizacion.service";
 
 export const listarCotizaciones = async (_req: Request, res: Response) => {
   try {
     const cotizaciones = await obtenerCotizaciones();
     res.status(200).json(cotizaciones);
   } catch (error) {
-    res.status(500).json({ message: 'Error al obtener cotizaciones' });
+    res.status(500).json({ message: "Error al obtener cotizaciones" });
   }
-};*/
+};
 
 // export const guardarCotizacionController = async (req: Request, res: Response) => {
 //   try {
