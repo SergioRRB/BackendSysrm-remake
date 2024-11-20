@@ -5,13 +5,11 @@ const prisma = new PrismaClient();
 export class GuardarProgramacionService {
   async saveProgramacion(data: CreateProgramacionDto) {
     const fechaActual = new Date().toISOString();
-    
-    // Verificar si ya existe una programación para la orden de servicio
+
     const existeProgramacion = await prisma.programaciones.findUnique({
       where: { id_orden_servicio: data.id_orden_servicio },
     });
 
-    // Verificar que el cliente exista
     const clienteExistente = await prisma.clientes.findUnique({
       where: {
         id: data.id_cliente_programacion,
@@ -22,7 +20,6 @@ export class GuardarProgramacionService {
       return { success: false, message: "Cliente no encontrado" };
     }
 
-    // Si no existe, creamos una nueva programación
     const newProgramacion = await prisma.programaciones.create({
       data: {
         id_orden_servicio: data.id_orden_servicio,
