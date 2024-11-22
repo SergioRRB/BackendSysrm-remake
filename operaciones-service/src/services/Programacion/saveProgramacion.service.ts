@@ -1,15 +1,31 @@
 import { PrismaClient } from "@prisma/client";
 import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
+
+// Crear una instancia de PrismaClient para interactuar con la base de datos
 const prisma = new PrismaClient();
 
+/**
+ * Clase `GuardarProgramacionService`
+ * Servicio responsable de guardar o crear programaciones en la base de datos.
+ */
 export class GuardarProgramacionService {
+  /**
+   * Método `saveProgramacion`
+   * Crea una nueva programación en la base de datos utilizando los datos proporcionados.
+   *
+   * @param {CreateProgramacionDto} data - Objeto con los datos necesarios para crear la programación.
+   * @returns {Promise<Object>} Resultado de la operación con el estado y el mensaje.
+   */
   async saveProgramacion(data: CreateProgramacionDto) {
+    // Obtener la fecha actual en formato ISO
     const fechaActual = new Date().toISOString();
 
+    // Verificar si ya existe una programación con el mismo ID de orden de servicio
     const existeProgramacion = await prisma.programaciones.findUnique({
       where: { id_orden_servicio: data.id_orden_servicio },
     });
 
+    // Verificar si el cliente asociado a la programación existe
     const clienteExistente = await prisma.clientes.findUnique({
       where: {
         id: data.id_cliente_programacion,
@@ -20,6 +36,7 @@ export class GuardarProgramacionService {
       return { success: false, message: "Cliente no encontrado" };
     }
 
+    // Crear una nueva programación en la base de datos
     const newProgramacion = await prisma.programaciones.create({
       data: {
         id_orden_servicio: data.id_orden_servicio,
@@ -46,6 +63,7 @@ export class GuardarProgramacionService {
       },
     });
 
+    // Devolver el resultado de la operación
     return {
       success: true,
       message: "Programación creada correctamente",

@@ -2,7 +2,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/**
+ * Servicio para obtener asignaciones de recojo desde la base de datos.
+ */
 export class ObtenerAsignacionRecojoService {
+  /**
+   * Método para obtener una lista de asignaciones con datos relacionados.
+   * @returns {Promise<object>} Objeto con el estado de la operación, mensaje y datos obtenidos.
+   */
   async obtenerAsignaciones() {
     try {
       // Realizar la consulta utilizando Prisma para obtener las asignaciones

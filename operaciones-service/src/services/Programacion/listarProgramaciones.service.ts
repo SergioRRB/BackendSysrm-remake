@@ -1,22 +1,41 @@
 import { PrismaClient } from "@prisma/client";
 
+// Crear una instancia de PrismaClient para interactuar con la base de datos
 const prisma = new PrismaClient();
 
+/**
+ * Clase `ListarProgramacionService`
+ * Proporciona un servicio para listar programaciones con detalles adicionales.
+ */
 export class ListarProgramacionService {
+  /**
+   * Método `listarProgramaciones`
+   * Obtiene una lista de programaciones desde la base de datos, incluyendo la razón social del cliente asociado.
+   *
+   * @returns {Promise<Array>} Lista de programaciones con sus campos y detalles relevantes.
+   *
+   * Detalles:
+   * - Recupera todas las programaciones desde la tabla `programaciones`.
+   * - Incluye la razón social del cliente desde la tabla `clientes`.
+   * - Ordena los resultados por el campo `id` en orden descendente.
+   * - Mapea los datos para devolver un objeto estructurado con los campos seleccionados.
+   */
   async listarProgramaciones() {
+    // Consulta las programaciones desde la base de datos con detalles del cliente
     const programacion = await prisma.programaciones.findMany({
       include: {
         clientes: {
           select: {
-            razon_social_cliente: true,
+            razon_social_cliente: true, // Selecciona solo la razón social del cliente
           },
         },
       },
       orderBy: {
-        id: "desc",
+        id: "desc", // Ordena por ID en orden descendente
       },
     });
 
+    // Mapea los datos obtenidos para estructurarlos en el formato deseado
     return programacion.map((programaciones) => ({
       id: programaciones.id,
       id_orden_servicio: programaciones.id_orden_servicio,
