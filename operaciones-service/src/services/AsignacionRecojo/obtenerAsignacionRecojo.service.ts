@@ -2,7 +2,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/**
+ * Servicio para obtener asignaciones de recojo desde la base de datos.
+ */
 export class ObtenerAsignacionRecojoService {
+  /**
+   * Método para obtener una lista de asignaciones con datos relacionados.
+   * @returns {Promise<object>} Objeto con el estado de la operación, mensaje y datos obtenidos.
+   */
   async obtenerAsignaciones() {
     try {
       // Realizar la consulta utilizando Prisma para obtener las asignaciones
@@ -29,14 +36,6 @@ export class ObtenerAsignacionRecojoService {
           fecha_creado: true,
 
           // Relacionar las tablas necesarias
-          /*
-          asignacion_recojos: {
-            select: {
-              id_orden_servicio_recojo: true,
-              id_conductor_recojo: true,
-              id_auxiliar_recojo: true,
-            },
-          },*/
           asignacion_recojos: {
             select: {
               id_orden_servicio_recojo: true,
@@ -57,27 +56,6 @@ export class ObtenerAsignacionRecojoService {
               DESTINO: true,
             },
           },
-          /*
-          usuariosConductor: {
-            select: {
-              colaborador_usuario: true,
-            },
-            where: {
-              id: {
-                equals: prisma.asignacion_recojos.id_conductor_recojo,
-              },
-            },
-          },
-          usuariosAuxiliar: {
-            select: {
-              colaborador_usuario: true,
-            },
-            where: {
-              id: {
-                equals: prisma.asignacion_recojos.id_auxiliar_recojo,
-              },
-            },
-          },*/
         },
         orderBy: {
           id: "desc", // Ordenar por el ID en orden descendente

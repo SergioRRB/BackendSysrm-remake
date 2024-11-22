@@ -3,11 +3,20 @@ import { AsignacionRecojoDTO } from "../../dtos/AsignacionRecojo/GuardarAsignaci
 
 const prisma = new PrismaClient();
 
+/**
+ * Servicio para guardar o actualizar asignaciones de recojo
+ */
 export class GuardarAsignacionRecojoService {
+  /**
+   * Guarda o actualiza una asignación según los datos proporcionados
+   * @param data - Datos de asignación del recojo (DTO)
+   * @returns Mensaje de éxito
+   * @throws Error si faltan campos requeridos
+   */
   async guardarAsignacion(data: AsignacionRecojoDTO) {
-    //const fechaCreado = new Date().toISOString().split("T")[0];
     const fechaCreado = new Date().toISOString();
 
+    // Si la asignación es para externos
     if (data.opcionSeleccionada === "externos") {
       if (
         !data.dni_auxiliar_recojo ||
@@ -26,6 +35,7 @@ export class GuardarAsignacionRecojoService {
         },
       });
 
+      // Crear o actualizar asignación externa
       if (!asignacionExistente) {
         await prisma.asignacion_recojos.create({
           data: {
@@ -41,7 +51,6 @@ export class GuardarAsignacionRecojoService {
         return { success: true, message: "¡Asignado Correctamente!" };
       } else {
         await prisma.asignacion_recojos.update({
-          //where: { id_orden_servicio_recojo: data.id_orden_servicio_recojo },
           where: { id: asignacionExistente.id },
           data: {
             id_proveedor_recojo: data.id_proveedor_recojo,
@@ -56,6 +65,7 @@ export class GuardarAsignacionRecojoService {
         return { success: true, message: "¡Actualizado Correctamente!" };
       }
     } else {
+      // Validar asignación para internos
       if (
         !data.id_conductor_recojo ||
         !data.id_auxiliar_recojo ||
@@ -70,6 +80,7 @@ export class GuardarAsignacionRecojoService {
         },
       });
 
+      // Crear o actualizar asignación interna
       if (!asignacionExistente) {
         await prisma.asignacion_recojos.create({
           data: {
@@ -82,7 +93,6 @@ export class GuardarAsignacionRecojoService {
         return { success: true, message: "¡Asignado Correctamente!" };
       } else {
         await prisma.asignacion_recojos.update({
-          //where: { id_orden_servicio_recojo: data.id_orden_servicio_recojo },
           where: { id: asignacionExistente.id },
           data: {
             id_proveedor_recojo: null,
