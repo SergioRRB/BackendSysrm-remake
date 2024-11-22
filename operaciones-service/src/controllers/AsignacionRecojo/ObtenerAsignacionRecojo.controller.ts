@@ -1,50 +1,40 @@
 import { Request, Response } from "express";
-import { GuardarProgramacionService } from "../../services/Programacion/saveProgramacion.service";
-import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
-
-// Instancia del servicio para guardar programaciones
-const guardarProgramacionService = new GuardarProgramacionService();
+import { ObtenerAsignacionRecojoService } from "../../services/AsignacionRecojo/obtenerAsignacionRecojo.service";
 
 /**
- * Controlador `GuardarProgramacionController`
- * Maneja las solicitudes relacionadas con la creación de una programación.
+ * Controlador para manejar la obtención de asignaciones de recojo.
  */
-export class GuardarProgramacionController {
+export class ObtenerAsignacionRecojoController {
+  private obtenerAsignacionRecojoService: ObtenerAsignacionRecojoService;
+
   /**
-   * Método estático `guardarProgramacion`
-   * Crea una nueva programación basada en los datos proporcionados en la solicitud.
-   *
-   * @param {Request} req - Objeto de solicitud de Express que contiene los datos de la programación en el cuerpo.
-   * @param {Response} res - Objeto de respuesta de Express que devuelve el resultado de la operación.
-   * @returns {Promise<void>} Devuelve una respuesta con el estado de la operación.
+   * Constructor del controlador que inicializa el servicio.
    */
-  static async guardarProgramacion(req: Request, res: Response) {
-    // Extrae los datos de la solicitud y los asigna al DTO correspondiente
-    const data: CreateProgramacionDto = req.body;
+  constructor() {
+    this.obtenerAsignacionRecojoService = new ObtenerAsignacionRecojoService();
+  }
 
-    // Validación básica de datos (amplía las reglas de validación según los requisitos)
-    if (
-      !data.id_orden_servicio ||
-      !data.id_cliente_programacion ||
-      !data.area_programacion
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Campos obligatorios faltantes" });
-    }
-
+  /**
+   * Método para manejar la solicitud HTTP de obtención de asignaciones.
+   * @param req {Request} Objeto de solicitud HTTP.
+   * @param res {Response} Objeto de respuesta HTTP.
+   */
+  public async obtenerAsignaciones(req: Request, res: Response) {
     try {
-      // Llama al servicio para guardar la programación
-      const result = await guardarProgramacionService.saveProgramacion(data);
+      // Llama al servicio para obtener las asignaciones
+      const asignaciones =
+        await this.obtenerAsignacionRecojoService.obtenerAsignaciones();
 
-      // Devuelve la respuesta exitosa con los datos del resultado
-      res.status(200).json(result);
-    } catch (error) {
-      // Manejo de errores y devolución de una respuesta con un estado de error
-      res.status(500).json({
+      // Devuelve las asignaciones como respuesta exitosa
+      return res.json({
+        success: true,
+        data: asignaciones,
+      });
+    } catch (error: any) {
+      // Maneja errores y devuelve una respuesta con el mensaje correspondiente
+      return res.status(500).json({
         success: false,
-        message: "Error al guardar programación",
-        error,
+        message: error.message,
       });
     }
   }
