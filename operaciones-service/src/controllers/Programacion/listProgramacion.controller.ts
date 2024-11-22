@@ -1,40 +1,52 @@
 import { Request, Response } from "express";
-import { ListarProgramacionService } from "../../services/Programacion/listarProgramaciones.service";
+import { GuardarProgramacionService } from "../../services/Programacion/saveProgramacion.service";
+import { CreateProgramacionDto } from "../../dtos/Programacion/saveProgramacion.dto";
 
-// Instancia del servicio para listar programaciones
-const listarProgramacionService = new ListarProgramacionService();
+// Instancia del servicio para guardar programaciones
+const guardarProgramacionService = new GuardarProgramacionService();
 
 /**
- * Controlador `ListarProgramacionController`
- * Se encarga de manejar las solicitudes para listar las programaciones.
+ * Controlador `GuardarProgramacionController`
+ * Maneja las solicitudes relacionadas con la creación de una programación.
  */
-export class ListarProgramacionController {
+export class GuardarProgramacionController {
   /**
-   * Método `listarProgramaciones`
-   * Obtiene todas las programaciones y las devuelve en la respuesta HTTP.
+   * Método estático `guardarProgramacion`
+   * Crea una nueva programación basada en los datos proporcionados en la solicitud.
    *
-   * @param {Request} req - Objeto de solicitud de Express.
-   * @param {Response} res - Objeto de respuesta de Express.
-   * @returns {Promise<void>} Devuelve una respuesta con las programaciones o un error en caso de falla.
+   * @param {Request} req - Objeto de solicitud de Express que contiene los datos de la programación en el cuerpo.
+   * @param {Response} res - Objeto de respuesta de Express que devuelve el resultado de la operación.
+   * @returns {Promise<void>} Devuelve una respuesta con el estado de la operación.
    */
-  async listarProgramaciones(req: Request, res: Response) {
-    try {
-      // Llama al servicio para obtener la lista de programaciones
-      const programaciones =
-        await listarProgramacionService.listarProgramaciones();
+  static async guardarProgramacion(req: Request, res: Response) {
+    // Extrae los datos de la solicitud y los asigna al DTO correspondiente
+    const data: CreateProgramacionDto = req.body;
 
-      // Devuelve las programaciones en la respuesta con un estado exitoso
-      res.status(200).json({
-        success: true,
-        data: programaciones,
-      });
-    } catch (error: any) {
+    // Validación básica de datos (amplía las reglas de validación según los requisitos)
+    if (
+      !data.id_orden_servicio ||
+      !data.id_cliente_programacion ||
+      !data.area_programacion
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Campos obligatorios faltantes" });
+    }
+
+    try {
+      // Llama al servicio para guardar la programación
+      const result = await guardarProgramacionService.saveProgramacion(data);
+
+      // Devuelve la respuesta exitosa con los datos del resultado
+      res.status(200).json(result);
+    } catch (error) {
       // Manejo de errores y devolución de una respuesta con un estado de error
       res.status(500).json({
         success: false,
-        message: "Error al obtener las programaciones",
-        error: error.message,
+        message: "Error al guardar programación",
+        error,
       });
     }
   }
 }
+
